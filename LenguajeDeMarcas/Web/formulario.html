@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
+    <link rel="stylesheet" href="css.css">
+</head>
+<body>
+    <div class="titulo">
+             <h1> Formulario</h1>
+    </div>
+   
+   <div class="menu">
+    <center>
+       <a href="./index.html" class="linkmenu" >Inicio</a> 
+       <a href="./formulario.html" style="font-weight: bolder;"  class="linkmenu" >Formulario</a> 
+       <a href="./imagenes.html" class="linkmenu" >Imagenes</a>
+       <a href="./tienda.html" class="linkmenu">Tienda</a>
+     </center>
+   </div>
+
+   <div class="contenidoprincipal">
+       <form action="#">
+        <fieldset>
+
+            <legend>Formulario de registro</legend>
+
+            <div class="contenidoprincipal">
+
+                <fieldset>
+                    <legend>Datos personales</legend>
+                <p>
+                <label for="Nombre">Nombre: </label>
+                <input class="separadico" type="text" name="Nombre" id="Nombre" required placeholder="Ingresa tu nombre">       
+                </p>
+
+                 <p>
+                <label for="Apellidos">Apellidos: </label>
+                <input class="separadico" type="text" name="Apellidos" id="Apellidos" required placeholder="Ingresa tu apellido">       
+                </p>
+
+                 <p>
+                <label for="DNI">DNI: </label>
+                <input class="separadico" type="text" name="Dni" id="DNI" required maxlength="9" placeholder="99999999X">       
+                </p>
+
+                 <p>
+                <label for="Telefono">Telefono </label>
+                <input class="separadico" type="text" name="telefono" id="Telefono" required maxlength="9" placeholder="633633633">       
+                </p>
+                </fieldset>
+                 
+                    
+
+                
+                <fieldset>
+                    <legend>Gustos y aficiones</legend>
+                <p>
+                <label for="Color">Color favorito: </label>
+                <input class="separadico" type="color" name="Color" id="Color">       
+                </p>
+
+                 
+                <p>
+
+                <p>
+                <span style="font-weight: bolder;">Ingrediente favorito</span>
+                </p>
+                <p>
+                <label for="tomate" >Tomate:</label>
+                <input type="radio" name="ingredientes" id="tomate" value="tomate">
+                </p>
+
+                  <p>
+                <label for="Lechuga" >Lechuga:</label>
+                <input type="radio" name="ingredientes" id="Lechuga" value="tomate">
+                </p>
+
+                <label for="Queso" >Queso:</label>
+                <input type="radio" name="ingredientes" id="Queso" value="Queso">
+                </p>
+
+                  <p>
+                <label for="Pesto" >Pesto:</label>
+                <input type="radio" name="ingredientes" id="Pesto" value="Pesto">
+                </p>
+                
+                </p>
+
+                <p>
+                   <span style="font-weight: bolder;">Streamers que ves</span> 
+                </p>
+
+                <p>
+                    <label for="Ibai">Ibai</label>
+                    <input type="checkbox" name="Ibai" id="Ibai">
+                </p>
+
+                <p>
+                    <label for="Elrubius">Elrubius</label>
+                    <input type="checkbox" name="Elrubius" id="Elrubius">
+                </p>
+
+                <p>
+                    <label for="TheGrefg">TheGrefg</label>
+                    <input type="checkbox" name="TheGrefg" id="TheGrefg">
+                </p>
+
+
+                </fieldset>
+                 
+                    
+                <button type="submit" style="margin-top: 1cm;">Enviar formulario</button>
+            </div>
+
+
+            
+
+        </fieldset>
+       </form>
+   </div>
+    
+</body>
+</html>

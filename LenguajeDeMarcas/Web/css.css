@@ -1,0 +1,67 @@
+body {
+background-color: rgb(226, 216, 202);
+
+}
+
+.titulo {
+    
+    color:black;
+    justify-self: center;
+
+}
+
+.menu {
+    width: 100%;
+    justify-self: center;
+    background-color: antiquewhite;
+}
+
+.linkmenu {
+    text-decoration: none;
+    font-size: larger;
+    padding: 1cm;
+    
+}
+
+
+
+.contenidoprincipal{
+
+    padding: 1cm;
+}
+
+.separadico{
+
+    margin-left: 10px;
+}
+
+fieldset {
+    margin-top: 1cm;
+}
+
+.borde {
+    border: 1px solid black;
+
+}
+
+.caja {
+
+  padding: 1cm;
+  width: 100px;
+  height: 100px;
+  color: black;
+  display: flex; /* Opcional, para centrar el texto dentro de la caja */
+  justify-content: center;
+  align-items: center;
+}
+
+button:hover{
+
+    transform: scale(1.05);
+    transition: 200ms;
+}
+
+.imgtienda {
+
+    max-width: 4cm;
+}
