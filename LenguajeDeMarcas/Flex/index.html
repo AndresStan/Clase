@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Flex</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .contenedor {
+            background-color: burlywood;
+            padding: 10px;
+            border: 2px solid black;
+            display: flex;
+            /*
+            flex-direction: row;
+            flex-wrap: wrap;
+            flex-flow: row wrap;
+            justify-content: space-around;
+            justify-content: space-between;
+            justify-content: space-evenly;
+            */
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: baseline;
+            height: 400px;
+            gap: 5px;
+            
+            
+        }
+
+        .contenedor div {
+
+            width: 100px;
+           
+            background-color: lightskyblue;
+            text-align: center;
+            line-height: 75px;
+            font-size: 30px;
+            border: 2px solid black;
+           
+            
+        }
+
+
+    </style>
+</head>
+<body>
+    <h1>CSS - Flex</h1>
+    <hr>
+    <div class="contenedor">
+        <div style="background-color: red; order: 1; flex-grow: 1;">1</div>
+        <div style="background-color: rgb(209, 219, 61); order: 2; flex-grow: 3;">2</div>
+        <div style="background-color: rgb(29, 185, 206); order: 3;">3</div>
+        <div style="background-color: rgb(18, 212, 51); order: 4;">4</div>
+     
+    </div>
+</body>
+</html>
