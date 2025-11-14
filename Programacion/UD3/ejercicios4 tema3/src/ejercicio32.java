@@ -9,15 +9,21 @@ public class ejercicio32 {
         int num = sc.nextInt();
         sc.nextLine();
 
-        for (int i = num; i >= 1; i--) {
+        for (int i = 1; i < num; i++) {
 
 
+
+                if (num % i == 0) {
+                    System.out.print(i + ", ");
+                }
 
         }
 
 
 
     }
+
+
 
 
 
