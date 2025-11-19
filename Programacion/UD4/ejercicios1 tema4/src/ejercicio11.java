@@ -14,6 +14,7 @@ public class ejercicio11 {
 
     }
 
+
     static int factorial(int num) {
 
 
