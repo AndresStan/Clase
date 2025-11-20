@@ -1,33 +1,18 @@
 import java.util.Scanner;
 
 public class ejercicio12 {
-    static void main(String[] args) {
 
-       fibonacci();
-
+    public static void main(String[] args) {
+        int n = 10;
+        System.out.println("El valor de Fibonacci en la posición " + n + " es: " + fibonacciRecursivo(n));
     }
 
-    static void fibonacci(){
-        int contador = 1;
-        int numeroMaximo = 11;
-        int num = 1;
-        int anterior = 1;
-        int anteriorAnterior = 0;
-
-
-        System.out.print(anteriorAnterior + " ");
-        System.out.print(anterior + " ");
-
-
-        while (contador < numeroMaximo) {
-
-
-            num = anterior + anteriorAnterior;
-            System.out.print(num + " ");
-            anteriorAnterior = anterior;
-            anterior = num;
-            contador++;
+    public static int fibonacciRecursivo(int n) {
+        if (n <= 1) {
+            return n;
         }
-
+        return fibonacciRecursivo(n - 1) + fibonacciRecursivo(n - 2);
     }
+
+
 }
