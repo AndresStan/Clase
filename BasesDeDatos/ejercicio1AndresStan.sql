@@ -31,6 +31,17 @@ CREATE TABLE vendedores (
 	CONSTRAINT fk_vendedores_tienda FOREIGN KEY (numero_tienda) REFERENCES tiendas(numero_tienda) ON DELETE SET NULL
 );
 	
+-- Modificaciones
+-- Insertamos un nuevo campo
+
+ALTER TABLE vendedores ADD minusvalia ENUM('S', 'N') AFTER numero_hijos;
+ 
+-- Añadimos un nuevo campo sueldo en la tabla vendedores
+ALTER TABLE vendedores ADD sueldo FLOAT; 
+
+-- Modificamos el estado_civil de la tabla vendedores
+ALTER TABLE vendedores MODIFY estado_civil CHAR(1);
+	
 
 
 

@@ -1,5 +1,5 @@
 public class ejercicio16 {
-    static void main(String[] args) {
+    public static void main(String[] args) {
         int numero = 9039;
 
         boolean esNegativo = numero < 0;
