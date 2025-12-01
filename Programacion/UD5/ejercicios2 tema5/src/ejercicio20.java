@@ -6,7 +6,10 @@ public class ejercicio20 {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Dime la frase");
-        
+        String frase = sc.next();
+        sc.nextLine();
+
+
 
 
     }
