@@ -1,0 +1,3 @@
+interface Poligono{
+    double calcularArea();
+}
