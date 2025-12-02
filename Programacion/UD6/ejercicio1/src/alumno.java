@@ -1,30 +1,46 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class alumno extends Persona {
 
-    Integer curso;
-    char grupo;
-    String matriculaciones;
+    private Integer curso;
+    private char grupo;
+    private String asignaturas;
 
-
-    public alumno(String nombre, String apellidos, LocalDate fechaDeNacimiento, String dni, char sexo, Integer curso, char grupo, String matriculaciones) {
+    public alumno(String nombre, String apellidos, LocalDate fechaDeNacimiento, String dni, char sexo, Integer curso, char grupo, String asignaturas) {
         super(nombre, apellidos, fechaDeNacimiento, dni, sexo);
         this.curso = curso;
         this.grupo = grupo;
-        this.matriculaciones = matriculaciones;
+        this.asignaturas = asignaturas;
+    }
+
+    public Integer getCurso() {
+        return curso;
+    }
+
+    public void setCurso(Integer curso) {
+        this.curso = curso;
+    }
+
+    public char getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(char grupo) {
+        this.grupo = grupo;
+    }
+
+    public String getAsignaturas() {
+        return asignaturas;
+    }
+
+    public void setAsignaturas(String asignaturas) {
+        this.asignaturas = asignaturas;
     }
 
     @Override
     public String toString() {
-        return "alumno{" +
-                "curso=" + curso +
-                ", grupo=" + grupo +
-                ", matriculaciones='" + matriculaciones + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", apellidos='" + apellidos + '\'' +
-                ", fechaDeNacimiento=" + fechaDeNacimiento +
-                ", dni='" + dni + '\'' +
-                ", sexo=" + sexo +
-                '}';
+        return super.toString() + " curso: " + curso + " grupo: " + grupo +
+                " asignaturas: " + asignaturas;
     }
 }
