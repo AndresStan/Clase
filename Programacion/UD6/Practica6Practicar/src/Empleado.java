@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 public class Empleado {
     private String nombre;
@@ -88,7 +89,10 @@ public class Empleado {
     }
 
     public Integer antiguedad(){
-
-        return Period.between(fechaDeContratacion,LocalDate.now()).getYears();
+        if (fechaDeContratacion == null) {
+            return 0;
+        } else {
+            return (int) ChronoUnit.DAYS.between(fechaDeContratacion, LocalDate.now());
+        }
     }
 }

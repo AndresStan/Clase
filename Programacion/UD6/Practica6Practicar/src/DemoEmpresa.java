@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class DemoEmpresa {
 
-    static void main(String[] args) {
+    public static void main(String[] args) {
 
 
         Empleado empleado1 = new Empleado("Andres", "Stan", LocalDate.parse("2004-11-03"), "9999999D" , 1041.13, "Inspector");

@@ -3,13 +3,14 @@ import java.util.ArrayList;
 
 public class Empresa {
 
-    private ArrayList<Empleado> trabajadores = new ArrayList<>();
+    private ArrayList<Empleado> trabajadores;
 
     public ArrayList<Empleado> getTrabajadores() {
         return trabajadores;
     }
 
     public Empresa() {
+        trabajadores = new ArrayList<>();
     }
 
     public Empresa(ArrayList<Empleado> trabajadores) {
@@ -17,14 +18,17 @@ public class Empresa {
     }
 
     void MostrarElementos(){
-
-        for (Empleado i : trabajadores){
-            System.out.println(i.toString());
+        if (trabajadores.isEmpty()) {
+            System.out.println("No hay ningun elemento");
+        } else {
+            for (Empleado i : trabajadores){
+                System.out.println(i);
+            }
         }
     }
 
     double salarioPromedio(){
-
+        if (trabajadores.isEmpty()) return 0.0;
         double salarioPromedio = 0.0;
         for (Empleado i : trabajadores){
             salarioPromedio = salarioPromedio + i.getSalario();
@@ -34,13 +38,14 @@ public class Empresa {
     }
 
     Empleado GetEmpleadoMayorAntiguedad(){
-        Empleado devolucion = trabajadores.getFirst();
+        if (trabajadores.isEmpty()) return null;
+        Empleado masAntiguo = trabajadores.getFirst();
         for (Empleado i : trabajadores){
-            if (i.antiguedad() > devolucion.antiguedad()){
-                devolucion = i;
+            if (i.antiguedad() > masAntiguo.antiguedad()){
+                masAntiguo = i;
             }
         }
-        return devolucion;
+        return masAntiguo;
     }
 
     void BuscarEmpleados(String nombreOPuesto){
