@@ -1,0 +1,44 @@
+.titulo{
+    margin-top: 1cm;
+    margin-bottom: 1cm;
+    text-align: center;
+}
+
+
+.menuprincipal{
+    background-color: rgb(125, 114, 148);
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+}
+
+.menuprincipal > a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-minimalista {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); /* Un degradado morado a azul */
+  color: #ffffff;
+  text-align: center;
+  padding: 20px 10px;
+  font-family: 'Arial', sans-serif;
+  position: fixed;  /* Fija el elemento en la ventana */
+  left: 0;          /* Lo pega al borde izquierdo */
+  bottom: 0;        /* Lo pega al borde inferior */
+  width: 100%; 
+}
+
+.footer-minimalista .contenido p {
+  margin: 0 0 5px 0;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+h2{
+
+    text-align: center;
+}
