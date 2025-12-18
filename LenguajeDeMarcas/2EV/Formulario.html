@@ -19,7 +19,32 @@
        <a href="Formulario.html">Formularios</a>
     </div>
 
+    <div class="container py-4">
+        <form action="">
 
+            <div class="mb-3 row">
+                <label class="col-form-label col-2" for="nombre">Nombre</label>
+                <input class="form-control col " type="text" id="nombre" name="Nombre">
+            </div>
+
+             <div class="mb-3 row">
+                <label class="col-form-label col-2" for="apellido">Apellidos:</label>
+                <input class="form-control col" type="text" id="apellido" name="Apellido"  disabled value="Rodriguez">
+            </div>
+
+             <div class="mb-3 row">
+                <label class="col-form-label col-2" for="correo">Correo electronico: </label>
+                <input  class="form-control col" type="email" id="correo" name="Correo">
+            </div>
+             <div >
+                <label class="form-label" for="asunto">Asunto: </label>
+                <textarea  class="form-control" name="asunto" id="asunto" cols="30" rows="10"></textarea>
+            </div>
+            <div class="my-2">
+                <button class="btn btn-outline-success btn-lg">Enviar</button>
+            </div>
+        </form>
+    </div>
 
  
     <footer class="footer-minimalista">

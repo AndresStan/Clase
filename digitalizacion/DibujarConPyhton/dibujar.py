@@ -1,24 +1,18 @@
+import turtle
 from turtle import *
 
+speed(500)
 color("red")
-forward(100)
-right(90)
-forward(100)
-right(90)
-forward(100)
-right(90)
-forward(100)
+for i in range(45):
 
-forward(300)
-left(90)
-forward(100)
-left(90)
-forward(400)
-right(90)
-forward(100)
-right(90)
-forward(100)
-right(90)
-forward(100)
+    forward(100)
+    right(90)
+    forward(100)
+    right(90)
+    forward(100)
+    right(90)
+    forward(100)
+    right(100)
+    turtle.hideturtle()
 
 mainloop()
