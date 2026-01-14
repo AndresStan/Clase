@@ -81,9 +81,26 @@ CREATE TABLE SOCIOS(
 	apellidos VARCHAR(60) NOT NULL,
 	email VARCHAR(100) NOT NULL UNIQUE,
 	telefono VARCHAR(12),
-	fecha_alta DATE DEFAULT NOW()
+	fecha_alta DATETIME DEFAULT NOW(),
 	tipo_socio VARCHAR(15) DEFAULT 'BASICO',
-	cuota_pagada CHAR(1), DEFAULT 'N',
+	cuota_pagada CHAR(1) DEFAULT 'N',
 	penalizaciones INTEGER DEFAULT 0,
-	CONSTRAINT fk_tipo_socio
+	CONSTRAINT ck_tipo_socio CHECK ( tipo_socio IN ('BASICO', 'PREMIUM', 'VIP')),
+	CONSTRAINT ck_cuota_pagada CHECK ( cuota_pagada IN ('S', 'N')),
+	CONSTRAINT ck_penalizaciones CHECK ( penalizaciones >= 0 AND penalizaciones <= 10)
+);
+
+CREATE TABLE PRESTAMOS(
+	id_prestamos INTEGER AUTO_INCREMENT PRIMARY KEY,
+	num_socio INTEGER,
+	isbn VARCHAR(17),
+	fecha_prestamo DATETIME DEFAULT NOW() NOT NULL,
+	fecha_devolucion_prestamo DATE NOT NULL,
+	fecha_devolucion_real DATE, 
+	estado VARCHAR(20) DEFAULT 'EN_PRESTAMO',
+	renovaciones INTEGER DEFAULT 0,
+	CONSTRAINT fk_num_socio FOREIGN KEY (num_socio) REFERENCES SOCIOS (num_socio) ON DELETE RESTRICT,
+	CONSTRAINT fk_isbn2 FOREIGN KEY (isbn) REFERENCES LIBROS (isbn) ON DELETE RESTRICT,
+	CONSTRAINT ck_estado CHECK (estado IN ('EN_PRESTAMO', 'DEVUELTO', 'RETRASADO', 'PERDIDO')),
+	CONSTRAINT ck_renovaciones CHECK (renovaciones >= 0 AND renovaciones <= 3)
 );
