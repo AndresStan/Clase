@@ -27,7 +27,7 @@ CREATE TABLE CATEGORIAS(
 
 CREATE TABLE INSTRUCTORES (
 	email VARCHAR(100) PRIMARY KEY,
-	nombre_categoria VARCHAR(80) NOT NULL,
+	nombre_completo VARCHAR(80) NOT NULL,
 	biografia TEXT,
 	fecha_registro DATETIME DEFAULT NOW(),
 	puntuacion_media DECIMAL(3,2),
@@ -92,4 +92,4 @@ CREATE TABLE MATRICULAS(
 
 INSERT INTO CATEGORIAS (nombre_categoria, activa) VALUES ('Programacion', 's')
 
--- Celia seguira con las pruebas.
+INSERT INTO INSTRUCTORES (email, nombre_completo, puntuacion_media, certificado) VALUES ('juan.perez@academia.com', 'Juan Perez Sanchez', 4,75, 'S')
