@@ -1,0 +1,46 @@
+-- Andres Stan --
+
+-- Ejercicio 4 --
+
+DROP DATABASE IF EXISTS CLINICA;
+
+CREATE DATABASE CLINICA;
+
+USE CLINICA;
+
+CREATE TABLE Doctor(
+	codigo INT PRIMARY KEY,
+	nombre VARCHAR(30) NOT NULL,
+	especialidad VARCHAR(30),
+	CONSTRAINT ck_nombre CHECK (nombre = UPPER(nombre))
+);
+
+
+CREATE TABLE Unidad(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	nombre VARCHAR(30) NOT NULL UNIQUE,
+	planta INT(2),
+	codigo INT,
+	CONSTRAINT fk_codigo FOREIGN KEY (codigo) REFERENCES Doctor (codigo) ON DELETE CASCADE,
+	CONSTRAINT ck_nombre2 CHECK (nombre IN ('TRAUMA', 'QUEMADOS', 'INTERNA', 'CORAZON'))
+);
+
+CREATE TABLE Paciente(
+	nuss VARCHAR(9) PRIMARY KEY,
+	nombre VARCHAR(30) NOT NULL,
+	edad INT NOT NULL,
+	id INT DEFAULT 1002,
+	CONSTRAINT fk_id FOREIGN KEY (id) REFERENCES Unidad (id) ON DELETE SET DEFAULT,
+	CONSTRAINT ck_edad CHECK (edad >= 5 AND edad <= 80)
+);
+
+CREATE TABLE Atiende(
+	nuss VARCHAR(9) PRIMARY KEY,
+	codigo INT,
+	fecha DATE,
+	sintoma TEXT,
+	tratamiento TEXT,
+	CONSTRAINT ck_fecha CHECK (fecha>'2010-01-01'),
+	CONSTRAINT fk_nuss FOREIGN KEY (nuss) REFERENCES Paciente (nuss) ON DELETE CASCADE,
+	CONSTRAINT fk_codigo2 FOREIGN KEY (codigo) REFERENCES Doctor (codigo) ON DELETE CASCADE
+);

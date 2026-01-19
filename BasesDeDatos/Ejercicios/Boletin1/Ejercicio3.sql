@@ -95,12 +95,14 @@ CREATE TABLE PRESTAMOS(
 	num_socio INTEGER,
 	isbn VARCHAR(17),
 	fecha_prestamo DATETIME DEFAULT NOW() NOT NULL,
-	fecha_devolucion_prestamo DATE NOT NULL,
+	fecha_devolucion_prevista DATE NOT NULL,
 	fecha_devolucion_real DATE, 
 	estado VARCHAR(20) DEFAULT 'EN_PRESTAMO',
 	renovaciones INTEGER DEFAULT 0,
 	CONSTRAINT fk_num_socio FOREIGN KEY (num_socio) REFERENCES SOCIOS (num_socio) ON DELETE RESTRICT,
 	CONSTRAINT fk_isbn2 FOREIGN KEY (isbn) REFERENCES LIBROS (isbn) ON DELETE RESTRICT,
 	CONSTRAINT ck_estado CHECK (estado IN ('EN_PRESTAMO', 'DEVUELTO', 'RETRASADO', 'PERDIDO')),
-	CONSTRAINT ck_renovaciones CHECK (renovaciones >= 0 AND renovaciones <= 3)
+	CONSTRAINT ck_renovaciones CHECK (renovaciones >= 0 AND renovaciones <= 3),
+	CONSTRAINT ck_devolucion_prevista CHECK (fecha_devolucion_prevista > fecha_prestamo)
 );
+
