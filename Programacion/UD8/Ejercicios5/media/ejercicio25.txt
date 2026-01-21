@@ -1,0 +1,4 @@
+hola muy buenas
+este es mi texto
+tiene 2 hola
+y en total 4 lineas
