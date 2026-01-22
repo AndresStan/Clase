@@ -10,7 +10,7 @@ public class Alfonso {
         Path ruta = Path.of("media/alfonso.txt");
         File archivo = ruta.toFile();
 
-        String regex = "\\|(?i)(?=[^|]*x[^|]*x)(12[0-3]|1[0-1]\\d|[1-9]\\d|\\d).{2,4}\\|";
+        String regex = "\\b(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\\b";
         Pattern patron = Pattern.compile(regex);
 
 
@@ -21,11 +21,12 @@ public class Alfonso {
 
                 Matcher matcher = patron.matcher(line);
 
-                while ( matcher.find())
-                {
-                    System.out.println(matcher.group());
+                while (matcher.find()){
+
+                    System.out.println("IP Valida, dada la vuelta: " + line.replaceAll(regex, "$4.$3.$2.$1"));
 
                 }
+
 
             }
 
