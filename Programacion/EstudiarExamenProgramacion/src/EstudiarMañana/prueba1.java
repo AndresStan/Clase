@@ -14,7 +14,7 @@ public class prueba1 {
 
         // minimo 1 mayus, 1 caracter especial y 1 numero, minimo 8 caracteres
 
-        Pattern patron = Pattern.compile("(?=\\S*[A-Z])(?=\\S*[^A-Za-z0-9])(?=\\S*[\\d])\\S{8,}");
+        Pattern patron = Pattern.compile("\\ba[\\S]+@iesch.org");
 
 
         try (BufferedReader reader = new BufferedReader( new FileReader( archivo))) {
