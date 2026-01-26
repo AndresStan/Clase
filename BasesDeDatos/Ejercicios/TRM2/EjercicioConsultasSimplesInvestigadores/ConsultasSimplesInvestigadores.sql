@@ -111,13 +111,14 @@ select * from reservas where dni in (select dni from investigadores where facult
 -- 1. Visualiza los datos de los investigadores junto con el nombre de la facultad.
 
 
-
 -- 2. Visualiza los datos de los investigadores junto con el nombre de la facultad, y también que se
 -- visualicen los nombres de la facultad, aunque no haya investigadores.
 
 
 
 -- 3. Visualiza los datos de las reservas, pero que aparezca el nombre del investigador y apellidos.
+
+
 -- 4. Visualiza los datos de las reservas, pero que aparezca el nombre del investigador y apellidos, y la
 -- descripción del equipo.
 
