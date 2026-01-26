@@ -18,9 +18,7 @@ public class Account {
         Balance = balance;
     }
 
-
-
-    public Account(String customerName, double balance) {
+    public Account(String customerName) {
 
         if (customerName == null) {
             throw new IllegalArgumentException("El nombre no puede ser nulo");
@@ -28,5 +26,26 @@ public class Account {
 
         CustomerName = customerName;
         Balance = 0;
+    }
+
+    public void Credit(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("La cantidad debe ser mayor que cero");
+        }
+
+        Balance += amount;
+    }
+
+    public void Debit(double amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("La cantidad debe ser mayor que cero");
+        }
+        if (Balance - amount >= 0) {
+            Balance += amount;
+        } else {
+            throw new IllegalArgumentException("Saldo insuficiente");
+        }
+
+
     }
 }
