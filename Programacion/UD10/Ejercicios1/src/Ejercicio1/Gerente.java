@@ -2,7 +2,7 @@ package Ejercicio1;
 
 public class Gerente extends Empleado{
 
-    private Double bonoAdicional;
+    protected Double bonoAdicional;
 
 
     public Gerente(String nombre, Double salarioBase, Double bonoAdicional) {
@@ -12,6 +12,6 @@ public class Gerente extends Empleado{
 
     @Override
     public String mostrarInfo() {
-        return super.mostrarInfo() + ", bonoAdicional: " + bonoAdicional;
+        return super.mostrarInfo() + ", bonoAdicional: " + bonoAdicional + " Salario total: " + (salarioBase+bonoAdicional);
     }
 }
