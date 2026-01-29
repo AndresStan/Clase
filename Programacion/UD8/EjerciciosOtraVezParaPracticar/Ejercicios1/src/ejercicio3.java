@@ -12,7 +12,7 @@ public class ejercicio3 {
         File archivo = ruta.toFile();
 
         Files.copy(ruta, Path.of("Documentos\\PRO_UD08_Ej03\\Programacion(+1).txt"));
-        Files.copy(ruta, Path.of("Documentos\\PRO_UD08_Ej03\\Programacion(+2.txt"));
+        Files.copy(ruta, Path.of("Documentos\\PRO_UD08_Ej03\\Programacion(+2).txt"));
 
         Files.createDirectories(Path.of("Documentos\\PRO_UD08_Ej03\\docs\\samples"));
         Files.createDirectories(Path.of("Documentos\\PRO_UD08_Ej03\\docs\\exercises"));
@@ -21,6 +21,7 @@ public class ejercicio3 {
 
         Files.move(ruta, Path.of("Documentos\\PRO_UD08_Ej03\\docs\\exercises\\Programacion.txt"));
 
-        Files.move()
+        Files.move(Path.of("Documentos\\PRO_UD08_Ej03\\Programacion(+1).txt"), ruta );
+        Files.delete(Path.of("Documentos\\PRO_UD08_Ej03\\Programacion(+2).txt"));
     }
 }
