@@ -1,3 +1,6 @@
+-- Andres Stan 
+-- 1 DAM
+
 -- 1. Crea una consulta que muestre todos los campos (datos) de los investigadores ordenados por
 -- facultad.
 
@@ -110,6 +113,7 @@ select * from reservas where dni in (select dni from investigadores where facult
 -- MULTITABLAS
 -- 1. Visualiza los datos de los investigadores junto con el nombre de la facultad.
 
+select inv.*, fa.NomFacultad from investigadores inv inner join facultades fa on inv.facultad=fa.IdFacultad;
 
 -- 2. Visualiza los datos de los investigadores junto con el nombre de la facultad, y también que se
 -- visualicen los nombres de la facultad, aunque no haya investigadores.
@@ -118,8 +122,9 @@ select * from reservas where dni in (select dni from investigadores where facult
 
 -- 3. Visualiza los datos de las reservas, pero que aparezca el nombre del investigador y apellidos.
 
+select re.*, CONCAT(inv.nombre, " ", inv.apellidos) as NombreApellidos from reservas re inner join investigadores inv on re.DNI=inv.DNI;
 
 -- 4. Visualiza los datos de las reservas, pero que aparezca el nombre del investigador y apellidos, y la
 -- descripción del equipo.
 
-
+select re.*, CONCAT(inv.nombre, " ", inv.apellidos) as NombreApellido, eq.Descripcion from reservas re natural join investigadores inv natural join equipos eq;
