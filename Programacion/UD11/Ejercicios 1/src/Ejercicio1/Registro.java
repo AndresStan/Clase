@@ -1,5 +1,9 @@
 package Ejercicio1;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+
 public class Registro {
 
     private int id;
@@ -11,10 +15,25 @@ public class Registro {
     private String correo;
     private String pais;
     private String ip;
-    private String ultimoLogin;
+    private LocalDateTime ultimoLogin;
 
+    @Override
+    public String toString() {
+        return "Registro{" +
+                "id=" + id +
+                ", primerNombre='" + primerNombre + '\'' +
+                ", ultimoNombre='" + ultimoNombre + '\'' +
+                ", latitud=" + latitud +
+                ", longitud=" + longitud +
+                ", dominio='" + dominio + '\'' +
+                ", correo='" + correo + '\'' +
+                ", pais='" + pais + '\'' +
+                ", ip='" + ip + '\'' +
+                ", ultimoLogin='" + ultimoLogin + '\'' +
+                '}';
+    }
 
-    public Registro(int id, String primerNombre, String ultimoNombre, Double latitud, Double longitud, String dominio, String correo, String pais, String ip, String ultimoLogin) {
+    public Registro(int id, String primerNombre, String ultimoNombre, Double latitud, Double longitud, String dominio, String correo, String pais, String ip, LocalDateTime ultimoLogin) {
         this.id = id;
         this.primerNombre = primerNombre;
         this.ultimoNombre = ultimoNombre;
@@ -35,11 +54,11 @@ public class Registro {
         this.id = id;
     }
 
-    public String getUltimoLogin() {
+    public LocalDateTime getUltimoLogin() {
         return ultimoLogin;
     }
 
-    public void setUltimoLogin(String ultimoLogin) {
+    public void setUltimoLogin(LocalDateTime ultimoLogin) {
         this.ultimoLogin = ultimoLogin;
     }
 
