@@ -2,6 +2,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.util.AbstractCollection;
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class AccountTest {
@@ -50,7 +54,84 @@ class AccountTest {
 
     @Test
     void testDebit() {
-
+        String custName = "Joe Brown";
+        double credit = 10.00;
+        double debit = 10.00;
+        Account account = new Account(custName);
+        account.Credit(credit);
+        account.Debit(debit);
+        Assertions.assertEquals(credit-debit, account.Balance);
     }
+
+    @Test
+    public void Test_Debit_Negative()
+    {
+        String custName = "Joe Brown";
+        double debit = -100.00;
+        Account account = new Account(custName);
+        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            account.Debit(debit);
+        });
+        String expectedMessage = "La cantidad debe ser mayor que cero";
+        String actualMessage = exception.getMessage();
+        Assertions.assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+
+    @Test
+    public void Test_Credit_Negative()
+    {
+        String custName = "Joe Brown";
+        double credit = -100;
+        Account account = new Account(custName);
+        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            account.Credit(credit);
+        });
+        String expectedMessage = "La cantidad debe ser mayor que cero";
+        String actualMessage = exception.getMessage();
+        Assertions.assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    public void Test_Debit_InsufficientBalance()
+    {
+        String custName = "Joe Brown";
+        double credit = 10.00;
+        double debit = 50.00;
+        Account account = new Account(custName);
+        Exception exception = Assertions.assertThrows(IllegalArgumentException.class, () -> { account.Credit(credit);
+            account.Debit(debit);
+        });
+        String expectedMessage = "Saldo insuficiente";
+        String actualMessage = exception.getMessage();
+        Assertions.assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+
+    @Test
+        void testTiempoEjecucionCreacionCuenta() {
+        ArrayList<Account> cuentas = new ArrayList<>();
+        assertTimeout(Duration.ofMillis(100), () -> {
+            for (int i = 0; i <= 100 ; i++) {
+                cuentas.add(new Account(String.valueOf(i)));
+            };
+        });
+    }
+
+    @Test
+    void testTiempoEjecucionCreditoYDebito() {
+        ArrayList<Account> cuentas = new ArrayList<>();
+        assertTimeout(Duration.ofMillis(100), () -> {
+            for (int i = 0; i <= 100000 ; i++) {
+                Account cuenta = new Account("A");
+                cuenta.Credit(i+1);
+                cuenta.Debit(i+1);
+            };
+        });
+    }
+
+
+
+
 
 }

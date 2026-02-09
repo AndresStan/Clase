@@ -41,7 +41,7 @@ public class Account {
             throw new IllegalArgumentException("La cantidad debe ser mayor que cero");
         }
         if (Balance - amount >= 0) {
-            Balance += amount;
+            Balance -= amount;
         } else {
             throw new IllegalArgumentException("Saldo insuficiente");
         }
