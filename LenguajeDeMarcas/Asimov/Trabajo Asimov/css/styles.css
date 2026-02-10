@@ -1,0 +1,16 @@
+.encima {
+  position: absolute;
+  top: 200px;
+  left: 50px;
+  width: 100px;
+}
+
+.linea-arriba{
+    height: 6px;
+    background: #3a78b8;
+}
+
+.linea-abajo{
+    height: 6px;
+    background: #3a78b8
+}

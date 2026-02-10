@@ -1,0 +1,39 @@
+-- Examen Andres STAN
+-- 23 enero 2026
+
+DROP DATABASE IF EXISTS INFRACCIONES;
+
+CREATE DATABASE INFRACCIONES;
+
+USE INFRACCIONES;
+
+CREATE TABLE PERSONA(
+	dni CHAR(9) PRIMARY KEY,
+	nombre VARCHAR(30),
+	dir VARCHAR(100),
+	cp INT(5),
+	CONSTRAINT ck_cp CHECK (cp >= 44000 AND cp <= 44999)
+);
+
+CREATE TABLE VEHICULO(
+	matricula CHAR(7) PRIMARY KEY,
+	propietario CHAR(9),
+	fecha_compra DATE,
+	CONSTRAINT fk_propietario FOREIGN KEY (propietario) REFERENCES PERSONA (dni) ON DELETE CASCADE,
+	CONSTRAINT ck_fecha_compra CHECK (fecha_compra > '2010-1-1' AND fecha_compra IS NOT NULL)
+);
+
+CREATE TABLE MULTA(
+	vehiculo CHAR(7),
+	propietario CHAR(9),
+	fecha DATETIME,
+	euros NUMERIC,
+	CONSTRAINT pk_multa PRIMARY KEY (vehiculo, propietario, fecha),
+	CONSTRAINT fk_vehiculo FOREIGN KEY (vehiculo) REFERENCES VEHICULO (matricula) ON DELETE CASCADE,
+	CONSTRAINT fk_propietario2 FOREIGN KEY (propietario) REFERENCES PERSONA (dni) ON DELETE CASCADE
+);
+
+ALTER TABLE PERSONA MODIFY dir VARCHAR(50);
+ALTER TABLE PERSONA ADD CONSTRAINT ck_nombre CHECK (nombre = UPPER(nombre));
+ALTER TABLE PERSONA ADD sexo CHAR(2), ADD CONSTRAINT ck_sexo CHECK (sexo IN ('M', 'F', 'SD'));
+ALTER TABLE PERSONA DROP COLUMN sexo;

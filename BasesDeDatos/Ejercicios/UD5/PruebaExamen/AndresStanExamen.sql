@@ -1,0 +1,60 @@
+-- Andres STAN
+-- Examen prueba
+
+DROP DATABASE IF EXISTS RESTAURANTE;
+
+CREATE DATABASE RESTAURANTE;
+
+USE RESTAURANTE;
+
+CREATE TABLE CATEGORIA(
+	cod VARCHAR(2) PRIMARY KEY,
+	nombrec VARCHAR(15) UNIQUE DEFAULT 'SIN DETERMINAR',
+	encargado VARCHAR(20),
+	CONSTRAINT ck_nombrec CHECK (nombrec IN ('PRIMERO','SEGUNDO','POSTRE', 'SIN DETERMINAR'))
+);
+
+CREATE TABLE PLATO(
+	codp NUMERIC(3) PRIMARY KEY,
+	nombrep VARCHAR(30),
+	descripcion VARCHAR(100),
+	nivel NUMERIC(1),
+	precio DECIMAL(4,2),
+	categoria VARCHAR(15),
+	CONSTRAINT fk_categoria FOREIGN KEY (categoria) REFERENCES CATEGORIA (nombrec) ON DELETE SET NULL,
+	CONSTRAINT ck_precio CHECK ( precio >= 8 AND precio <= 50),
+	CONSTRAINT ck_nivel CHECK (nivel <= 4 AND nivel = UPPER(nivel)),
+	CONSTRAINT ck_nombrep CHECK (nombrep IS NOT NULL),
+	CONSTRAINT ck_nombrep2 UNIQUE (nombrep)
+	
+);
+
+CREATE TABLE INGREDIENTES(
+	codigo NUMERIC PRIMARY KEY,
+	nombre VARCHAR(15),
+	unidades VARCHAR(15),
+	almacen NUMERIC(4)
+);
+
+CREATE TABLE CANTIDAD(
+	codingr NUMERIC,
+	codp NUMERIC(3),
+	cantidad NUMERIC(2),
+	CONSTRAINT pk_cantidad PRIMARY KEY (codingr, codp),
+	CONSTRAINT fk_codingr FOREIGN KEY (codingr) REFERENCES INGREDIENTES (codigo) ON DELETE CASCADE,
+	CONSTRAINT fk_codp FOREIGN KEY (codp) REFERENCES PLATO (codp) ON DELETE CASCADE
+);
+
+-- Añade una nueva tabla cocinero con los siguientes campos: id (auto numérico), nombre y fecha de contrato
+
+CREATE TABLE COCINERO(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	nombre VARCHAR(20),
+	fecha_contrato DATETIME
+);
+
+ALTER TABLE PLATO ADD cocinero INT, ADD CONSTRAINT fk_cocinero FOREIGN KEY (cocinero) REFERENCES COCINERO (id) ON DELETE CASCADE;
+ALTER TABLE PLATO ADD fecha_creacion DATETIME DEFAULT NOW();
+ALTER TABLE COCINERO ADD sexo CHAR(2), ADD CONSTRAINT ck_sexo CHECK ( sexo IN ('M', 'F', 'SD'));
+ALTER TABLE INGREDIENTES MODIFY nombre VARCHAR(50);
+ALTER TABLE plato DROP COLUMN nivel;
