@@ -42,7 +42,14 @@ public class Demo {
 
         // Los registros con el último login entre noviembre de 2015 y enero de 2017
         // ambos incluidos ordenados por fecha de manera descendente.
-        tupla.stream().filter(registro -> registro.getUltimoLogin().isAfter(LocalDateTime.of(2015, 11, 1, 0, 0)) && registro.getUltimoLogin().isBefore(LocalDateTime.of(2017, 1, 1, 0, 0))).sorted(Comparator.comparing(Registro::getUltimoLogin).reversed()).forEach(System.out::println);
+        // tupla.stream().filter(registro -> registro.getUltimoLogin().isAfter(LocalDateTime.of(2015, 11, 1, 0, 0)) && registro.getUltimoLogin().isBefore(LocalDateTime.of(2017, 1, 1, 0, 0))).sorted(Comparator.comparing(Registro::getUltimoLogin).reversed()).forEach(System.out::println);
+
+        // Los nombres y apellidos de los registros cuyo nombre (first_name) empiecen
+        //por ‘A’ ordenados por fecha (descendente) del último inicio de sesión
+        //(last_login).
+
+        //tupla.stream().filter(registro -> registro.getPrimerNombre().startsWith("A")).sorted(Comparator.comparing(Registro::getUltimoLogin).reversed()).map(registro -> registro.getPrimerNombre() + " " + registro.getUltimoNombre()).forEach(System.out::println);
+
 
     }
 }
