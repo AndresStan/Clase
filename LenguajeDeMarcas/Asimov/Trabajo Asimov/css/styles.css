@@ -7,11 +7,11 @@
 
 .linea-arriba{
     height: 6px;
-    background: #3a78b8;
+    background: linear-gradient(to right, #3a78b8, #ffffff);
 }
 
 .linea-abajo{
     height: 6px;
-    background: #3a78b8
+    background: linear-gradient(to left, #3a78b8, #ffffff);
 }
 

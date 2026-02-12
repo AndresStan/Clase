@@ -29,6 +29,177 @@
 
 
 
+    <div class="container py-4">
+        <h3 style="color:royalblue;">Formulario para hacerte socio</h3>
+
+        <div class="mt-4 mb-4">
+            <p>
+                Para hacerte socio de nuestro club de fans, por favor rellena los siguientes datos y nos pondremos en
+                contacto contigo lo antes
+                posible para terminar el proceso de inscripción.
+            </p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <form action="">
+                    <div class="p-4 mb-4 rounded" style="background-color: #e2eff9;">
+                        <h4 class="mb-3" style="color: #3b5d86; font-weight: bold;">1 Datos Personales</h4>
+                        <p class="text-secondary">Todos los campos con *
+                            son obligatorios</p>
+
+                        <div class="row mb-3 align-items-center">
+                            <label for="nombre" class="col-sm-4 col-form-label fw-bold text-secondary-emphasis">Nombre
+                                *</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="nombre">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 align-items-center">
+                            <label for="apellido1"
+                                class="col-sm-4 col-form-label fw-bold text-secondary-emphasis">Primer apellido
+                                *</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="apellido1">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 align-items-center">
+                            <label for="apellido2"
+                                class="col-sm-4 col-form-label fw-bold text-secondary-emphasis">Segundo apellido</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="apellido2">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 align-items-center">
+                            <label for="dni" class="col-sm-4 col-form-label fw-bold text-secondary-emphasis">DNI o
+                                Pasaporte</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control text-muted" id="dni"
+                                    placeholder="DNI o Pasaporte">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 align-items-center">
+                            <label for="fecha" class="col-sm-4 col-form-label fw-bold text-secondary-emphasis">Fecha de
+                                nacimiento</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control text-muted" id="fecha" placeholder="dd/mm/aaaa">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 mb-4 rounded" style="background-color: #e2eff9;">
+                        <h4 class="mb-4" style="color: #3b5d86; font-weight: bold;">2 Datos de contacto</h4>
+
+                        <div class="row mb-3 align-items-center">
+                            <label for="email" class="col-sm-4 col-form-label fw-bold text-secondary-emphasis">Correo
+                                electrónico *</label>
+                            <div class="col-sm-8">
+                                <input type="email" class="form-control text-muted" id="email"
+                                    placeholder="Correo electrónico">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 align-items-center">
+                            <label for="cp" class="col-sm-4 col-form-label fw-bold text-secondary-emphasis">Código
+                                postal *</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="cp">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 align-items-center">
+                            <label for="direccion"
+                                class="col-sm-4 col-form-label fw-bold text-secondary-emphasis">Dirección Postal
+                                *</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="direccion">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 align-items-center">
+                            <label for="poblacion"
+                                class="col-sm-4 col-form-label fw-bold text-secondary-emphasis">Población *</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="poblacion">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-4 mb-4 rounded" style="background-color: #e2eff9;">
+                        <h4 class="mb-4" style="color: #3b5d86; font-weight: bold;">3 Datos de inscripción</h4>
+
+                        <div class="row mb-3 align-items-center">
+                            <label for="tipo" class="col-sm-4 col-form-label fw-bold text-secondary-emphasis">Tipo
+                                *</label>
+                            <div class="col-sm-8">
+                                <select class="form-select" id="tipo">
+                                    <option selected>Senior</option>
+                                    <option>Junior</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3 align-items-center">
+                            <label for="cuota" class="col-sm-4 col-form-label fw-bold text-secondary-emphasis">Cuota
+                                *</label>
+                            <div class="col-sm-8">
+                                <select class="form-select" id="cuota">
+                                    <option selected>General - 5€/mes</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-sm-4"></div>
+                            <div class="col-sm-12">
+                                <div class="border border-secondary-subtle p-3 rounded position-relative mt-2">
+                                    <span class="position-absolute px-1 text-secondary fw-bold"
+                                        style="top: -12px; left: 10px; background-color: #e2eff9;">
+                                        Periodicidad
+                                    </span>
+
+                                    <div class="d-flex gap-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="periodo" id="trimestral"
+                                                checked>
+                                            <label class="form-check-label" for="trimestral">Trimestral</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="periodo" id="semestral">
+                                            <label class="form-check-label" for="semestral">Semestral</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="periodo" id="anual">
+                                            <label class="form-check-label" for="anual">Anual</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4 align-items-center">
+                            <label for="iban"
+                                class="col-sm-4 col-form-label fw-bold text-secondary-emphasis">IBAN</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control text-muted" id="iban"
+                                    placeholder="(si no lo sabes, déjalo vacío)">
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-5">
+                            <button type="submit" class="btn btn-danger px-5 py-2 fw-bold"
+                                style="background-color: #d9534f;">ENVIAR</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
 
     <div class="linea-abajo"></div>
