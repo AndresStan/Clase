@@ -1,4 +1,4 @@
-package Ejercicio4;
+package Ejercicio5;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,10 +30,9 @@ public class app {
         sc.nextLine();
 
         try {
-                System.out.println("Introduce una palabra a buscar");
-                palabraBuscar = sc.next();
-                System.out.println("Introduce la palabra por la que la desea cambiar");
-                nuevaPalabra = sc.next();
+            System.out.println("Introduce una palabra a eliminar");
+            palabraBuscar = sc.next();
+
 
         } catch (Exception e) {
             System.out.println("Ha habido un error en la captura de palabras");
@@ -43,10 +42,8 @@ public class app {
 
         if (lista.contains(palabraBuscar)){
 
-            System.out.println("Palabra encontrada!, cambiando...");
-            int n = lista.indexOf(palabraBuscar);
-
-            lista.set(n, nuevaPalabra);
+            System.out.println("Palabra [" + palabraBuscar  + "] encontrada, eliminando...");
+            lista.remove(palabraBuscar);
 
         }
 
