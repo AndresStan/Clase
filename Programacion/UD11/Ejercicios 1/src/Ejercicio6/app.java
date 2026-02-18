@@ -15,6 +15,12 @@ public class app {
             lista.add(random.nextInt(0,100));
         }
 
+        System.out.println("Lista sin el cambio");
+        System.out.println(lista);
+
+        System.out.println("Lista con el cambio");
+        List<Integer> nLista = lista.stream().distinct().toList();
+        System.out.println(nLista);
 
     }
 }
