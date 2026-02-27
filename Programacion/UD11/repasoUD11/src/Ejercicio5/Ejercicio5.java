@@ -1,18 +1,18 @@
-package Ejercicio4;
+package Ejercicio5;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class Ejercicio4 {
+public class Ejercicio5 {
     public static void main(String[] args) {
 
-        String palabra = "";
-        String buscar = "";
-        String p = "";
         Scanner sc = new Scanner(System.in);
         List<String> lista = new ArrayList<>();
+        String buscar = "";
+
+        String palabra = "";
 
         try {
             while (!Objects.equals(palabra, "siguiente")) {
@@ -25,30 +25,25 @@ public class Ejercicio4 {
                     lista.add(palabra);
                 }
             }
-            System.out.println(lista.toString());
+            System.out.println(lista);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
 
         try {
-            System.out.println("Indica la palabra a buscar ");
+            System.out.println("Indica la palabra a eliminar ");
             buscar = sc.next();
             sc.nextLine();
 
-            System.out.println("Indica la palabra que quieres poner ");
-            p = sc.next();
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
         String finalBuscar = buscar;
-        String finalP = p;
-        lista.replaceAll(s -> s.replaceAll(finalBuscar, finalP));
-        lista.forEach(System.out::println);
+        lista.remove(finalBuscar);
+        System.out.println(lista);
 
     }
-
-
 }
-
