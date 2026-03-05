@@ -1,0 +1,9 @@
+{
+  "name" : "Andres",
+  "address" : "Teruel",
+  "booklist" : [ {
+    "title" : "Titanic"
+  }, {
+    "title" : "Garfield"
+  } ]
+}

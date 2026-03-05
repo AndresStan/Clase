@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bookstore>
+    <authorList>
+        <booksWritten>
+            <author>Andres</author>
+            <title>Titanic</title>
+            <yearPublished>1974</yearPublished>
+        </booksWritten>
+        <booksWritten>
+            <author>Tete</author>
+            <title>Garfield</title>
+            <yearPublished>1988</yearPublished>
+        </booksWritten>
+        <name>Andres</name>
+    </authorList>
+    <bookList>
+        <author>Andres</author>
+        <title>Titanic</title>
+        <yearPublished>1974</yearPublished>
+    </bookList>
+    <bookList>
+        <author>Tete</author>
+        <title>Garfield</title>
+        <yearPublished>1988</yearPublished>
+    </bookList>
+</bookstore>
