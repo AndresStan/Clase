@@ -5,7 +5,6 @@ import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
 @XmlRootElement
-@XmlType(propOrder = {"name", "address", "booklist"})
 public class Publisher {
     private String name;
     private String address;

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.swing.plaf.PanelUI;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -52,7 +53,7 @@ public class Ejercicio9 {
             throw new RuntimeException(e);
         }
 
-        // Deserializar usando JSON3
+        // Deserializar usando JSON
         try {
             ObjectMapper mapper = new ObjectMapper();
             Publisher publicadorJSON = mapper.readValue(archivoJSON, Publisher.class);
@@ -68,7 +69,9 @@ public class Ejercicio9 {
             JAXBContext context = JAXBContext.newInstance(Publisher.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
            // Linea que da error
-            // Publisher publicadorXML = (Publisher) unmarshaller.unmarshal(archivoJSON);
+            Publisher publicadorXML = (Publisher) unmarshaller.unmarshal(archivoXML);
+            publicadorXML.getBooklistMIO();
+
 
 
 
