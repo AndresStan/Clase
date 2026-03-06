@@ -63,17 +63,20 @@ public class Ejercicio10 {
                 JAXBContext context = JAXBContext.newInstance(LibraryCatalog.class);
                 Unmarshaller unmarshaller = context.createUnmarshaller();
                 LibraryCatalog libreriaXML = (LibraryCatalog) unmarshaller.unmarshal(archivoXML);
-                libreriaXML.mostrarCatalogo();
-                miCatalogo.getCatalogo().get()
+                System.out.println(libreriaXML.getCatalogo().entrySet());
 
             } catch (JAXBException e) {
                 throw new RuntimeException(e);
             }
 
-
-        // Deserializar usando JSON
-        ObjectMapper mapper = new ObjectMapper();
-        // LibraryCatalog libreriaJSON = (LibraryCatalog) mapper.readValue(archivoJSON, LibraryCatalog.class);
+            // Deserializar usando JSON
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            LibraryCatalog libreriaJSON = (LibraryCatalog) mapper.readValue(archivoJSON, LibraryCatalog.class);
+            System.out.println(libreriaJSON.getCatalogo().entrySet());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
     }

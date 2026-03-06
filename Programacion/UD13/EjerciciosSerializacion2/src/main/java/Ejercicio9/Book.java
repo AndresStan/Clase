@@ -38,6 +38,7 @@ public class Book {
     }
 
     @XmlTransient
+    @JsonIgnore
     public String getAuthor() {
         return author;
     }
@@ -47,6 +48,7 @@ public class Book {
     }
 
     @XmlTransient
+    @JsonIgnore
     public int getYearPublished() {
         return yearPublished;
     }

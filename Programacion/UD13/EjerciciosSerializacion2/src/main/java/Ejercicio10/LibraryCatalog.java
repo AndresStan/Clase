@@ -10,6 +10,8 @@ public class LibraryCatalog {
     public LibraryCatalog() {
     }
 
+
+
     public LibraryCatalog(HashMap<Author, Book> catalogo) {
         this.catalogo = catalogo;
     }
@@ -22,7 +24,6 @@ public class LibraryCatalog {
         this.catalogo = catalogo;
     }
 
-   public void mostrarCatalogo(){
-       System.out.println(catalogo.entrySet());
-   }
+
+
 }

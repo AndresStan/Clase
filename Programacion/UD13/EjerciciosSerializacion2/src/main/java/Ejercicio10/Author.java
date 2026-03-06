@@ -15,6 +15,12 @@ public class Author {
     public Author() {
     }
 
+    public Author(String name) {
+        this.name = name;
+    }
+
+
+
     public Author(String name, List<Book> booksWritten) {
         this.name = name;
         this.booksWritten = booksWritten;
