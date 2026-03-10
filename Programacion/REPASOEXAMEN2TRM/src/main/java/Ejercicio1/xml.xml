@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<envoltorio>
+    <lista>
+        <edad>24</edad>
+        <id>107</id>
+        <nombre>Miguel</nombre>
+    </lista>
+    <lista>
+        <edad>23</edad>
+        <id>105</id>
+        <nombre>Pedro</nombre>
+    </lista>
+    <lista>
+        <edad>22</edad>
+        <id>102</id>
+        <nombre>Maria</nombre>
+    </lista>
+    <lista>
+        <edad>22</edad>
+        <id>110</id>
+        <nombre>Laura</nombre>
+    </lista>
+    <lista>
+        <edad>21</edad>
+        <id>104</id>
+        <nombre>Lucia</nombre>
+    </lista>
+    <lista>
+        <edad>21</edad>
+        <id>109</id>
+        <nombre>Javier</nombre>
+    </lista>
+</envoltorio>
