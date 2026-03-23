@@ -4,6 +4,6 @@ import java.nio.file.Path;
 
 public class Demo {
 
-    Path rutaJSON = Path.of("src/main/java/Ejercicio10REPASO/LibraryCatalogJSON.json")
+    Path rutaJSON = Path.of("src/main/java/Ejercicio10REPASO/LibraryCatalogJSON.json");
 
 }
