@@ -5,7 +5,7 @@ public class Demo {
     public static void main(String[] args) throws SQLException {
 
 
-        // EJERCICIOS Insertar datos
+        // EJERCICIOS INSERTOS
 
         /*
         if (Controlador.InsertarAutor(new Autor(4, "Andres", "Espana"))){
@@ -17,7 +17,8 @@ public class Demo {
         */
 
 
-        // EJERCICIOS Consultar datos
+        // EJERCICIOS CONSULTAS
+
         //Controlador.ConsultarAutores();
         //Controlador.ConsultarLibrosConSuAutor();
 
@@ -40,11 +41,22 @@ public class Demo {
 
         // EJERCICIOS ELIMINAR DATOS
 
+        //Controlador.EliminarUnAutor("Andres");
+        /*
+        if (Controlador.EliminarLibrosDeAutor("J.K. Rowling")){
+
+            System.out.println("Libros eliminados");
+        } else {
+            System.out.println("Autor no encontrado, o no tiene ningun libro");
+        }
+         */
+
+
+        //EJERCICIOS CONSULTAS AVANZADAS
+        //Controlador.LibrosMayorQue20();
+        //Controlador.NumeroTotalLibros();
+        //Controlador.PrecioMedioLibros();
 
 
     }
-
-
-
-
 }
