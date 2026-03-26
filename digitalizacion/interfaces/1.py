@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk, Widget
 
+
+
 root = tk.Tk()
 root.title("Hola")
 root.config(width=400, height=400)
@@ -35,14 +37,17 @@ radiobutton33= ttk.Radiobutton(frame2, text="Deporte")
 radiobutton33.place(x=50, y=140)
 
 
+sexo = tk.BooleanVar(value=False)
+
+
 frame3 = tk.Frame(bg="yellow", width=200, height=200)
 frame3.grid(row=1, column=0,padx=20,pady=20)
 label3 = tk.Label(frame3, text="Sexo:")
 label3.place(x=50, y=50)
-radiobutton111= ttk.Radiobutton(frame3, text="Hombre")
+radiobutton111= ttk.Radiobutton(frame3, value=1, text="Hombre", variable=sexo)
 radiobutton111.place(x=50, y=80)
 
-radiobutton222= ttk.Radiobutton(frame3, text="Mujer")
+radiobutton222= ttk.Radiobutton(frame3, value=2,text="Mujer", variable=sexo)
 radiobutton222.place(x=50, y=110)
 
 
