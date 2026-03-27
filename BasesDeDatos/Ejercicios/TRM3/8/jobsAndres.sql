@@ -39,16 +39,35 @@ where cod_centro not in (select cod_centro from personal)
 
 -- 6. Borrar el personal que está en centros de menos de 300 plazas y con menos de dos
 -- profesores. Ayuda: Hay que utilizar agrupación (GROUP BY)
-delete from personal
-where cod_centro in (select cod_centro form centro where num_plazas < 300 and ) 
--- sin hacer
+delete from personal per
+where cod_centro in (select cod_centro from centro where num_plazas < 300) 
+and (select count(*) FROM profesor WHERE COD_CENTRO=per.COD_CENTRO GROUP BY per.COD_CENTRO) < 2;
 
 
 -- 7. Borrar a los profesores que están en la tabla PROFESORES y que no están en la tabla
 -- PERSONAL.
+delete from profesor
+where dni not in (select dni from personal)
+
 -- 8. Dar de alta un nuevo artículo con código 'PI201' llamadado 'Pipas' de 'Primera' categoría y
 -- peso '1' para el fabricante PRESIDENT y abastecer con cinco unidades de ese artículo a
 -- todas las tiendas y en la fecha de hoy.
+insert into articulo
+(cod, nombre, cod_fabricante, peso, categoria)
+values
+(
+	"PI201",
+	"Pipas",
+	(select cod from fabricante where nombre = "PRESIDENT"),
+	1,
+	"Primera"
+)
+INSERT INTO pedido (NIF, COD_ARTICULO, FECHA_PEDIDO, UNIDADES_PEDIDAS)
+SELECT NIF, 'PI201', CURRENT_DATE, 5
+FROM tienda;
+
+
+
 -- 9. Dar de alta una tienda en la provincia de Madrid y abastecerla con 20 unidades de cada
 -- -- uno de los artículos existentes.
 -- 10. Dar de alta dos tiendas en la provincia de Sevilla y abastecerlas con 30 unidades de
