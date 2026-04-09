@@ -3,8 +3,6 @@ function saludar(nombre) {
 }
 
  
-
-
 const sumar = (a,b) => a + b
 const obtenerFecha = () => new Date()
 
