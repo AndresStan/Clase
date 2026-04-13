@@ -1,6 +1,5 @@
 package Vista;
 import Controlador.Controlador;
-import Modelo.Conexion;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +15,6 @@ public class Main extends Controlador {
                 JPanel panel = new JPanel(new GridLayout(5, 1, 10, 20));
 
                 panel.setBorder(BorderFactory.createEmptyBorder(200, 200, 200, 200));
-
 
                 JLabel titulo = new JLabel("LOGIN", SwingConstants.CENTER);
                 titulo.setFont(new Font("Arial", Font.BOLD, 25));

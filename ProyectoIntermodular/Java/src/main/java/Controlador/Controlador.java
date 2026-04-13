@@ -1,7 +1,5 @@
 package Controlador;
 
-import Modelo.Sentencias;
-
 import javax.swing.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

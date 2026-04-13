@@ -1,11 +1,11 @@
 package Vista;
 
-import Modelo.Verificacion;
-
+import Controlador.Controlador;
+import Controlador.Verificacion;
 import javax.swing.*;
 import java.awt.*;
-import java.sql.*;
-import java.time.LocalDate;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -29,21 +29,31 @@ public class Gestor extends JFrame {
         JPanel panelSuperior = new JPanel(new BorderLayout());
         panelSuperior.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        // 2. FECHA (Centro)
-        LocalDateTime hoy = LocalDateTime.now();
-        String fechaFormateada = hoy.format(DateTimeFormatter.ofPattern("dd/MM/yyyy:hh:mm:ss"));
-        JLabel lblFecha = new JLabel(fechaFormateada, SwingConstants.CENTER);
+        // Definición inicial
+        JLabel lblFecha = new JLabel("", SwingConstants.CENTER);
         lblFecha.setFont(new Font("Arial", Font.PLAIN, 14));
         panelSuperior.add(lblFecha, BorderLayout.CENTER);
+
+        // Definir el formateador una sola vez para ahorrar recursos
+        DateTimeFormatter formateador = DateTimeFormatter.ofPattern("dd/MM/yyyy:hh:mm:ss");
+
+        Timer timer = new Timer(1000, e -> {
+            LocalDateTime hoy = LocalDateTime.now();
+            lblFecha.setText(hoy.format(formateador));
+        });
+
+        timer.start(); // ¡No olvides iniciarlo!
+
+
 
         // Texto Usuario: (DNI) a la izquierda
         JLabel lblUsuario = new JLabel("Usuario: " + dni);
         lblUsuario.setFont(new Font("Arial", Font.BOLD, 14));
         panelSuperior.add(lblUsuario, BorderLayout.WEST);
-
+        JButton btnAddUser = new JButton("Gestionar usuarios");
         // Si la consulta devolvió true, añadimos el botón "Añadir Usuarios" a la derecha
         if (esAdmin) {
-            JButton btnAddUser = new JButton("Añadir Usuarios");
+
             panelSuperior.add(btnAddUser, BorderLayout.EAST);
         }
         add(panelSuperior, BorderLayout.NORTH);
@@ -73,6 +83,14 @@ public class Gestor extends JFrame {
 
         panelCentral.add(panelBotones, BorderLayout.CENTER);
         add(panelCentral, BorderLayout.CENTER);
+
+        btnAddUser.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               GestionUsuarios gu = new GestionUsuarios();
+            }
+        });
+
 
         setVisible(true);
     }

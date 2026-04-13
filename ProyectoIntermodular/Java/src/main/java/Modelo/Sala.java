@@ -1,4 +1,4 @@
-package Objects;
+package Modelo;
 
 public class Sala {
     private String id;
