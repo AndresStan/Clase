@@ -1,6 +1,8 @@
 package Vista;
 
 import Controlador.GestionUsuariosC;
+import Controlador.Regex;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -85,13 +87,22 @@ public class GestionUsuarios extends JFrame {
                 String pass = new String(txtPass.getPassword());
                 String dni = txtDni.getText();
                 boolean admin = chkAdmin.isSelected();
+                boolean borrar = false;
 
+                switch (Regex.verificarAñadirUsuario(dni,pass,admin)){
+                    case 1: JOptionPane.showMessageDialog(this, "Usuario introducido correctamente"); borrar=true; break;
+                    case 2: JOptionPane.showMessageDialog(this, "Asegurate de introducir un DNI correcto"); break;
+                    case 3: JOptionPane.showMessageDialog(this, "La contraseña no puede tener mas de 30 caracteres"); break;
+                    case 4: JOptionPane.showMessageDialog(this, "Asegurate de introducir un DNI correcto y la contraseña no puede tener mas de 30 caracteres");
+                    case 9: JOptionPane.showMessageDialog(this, "El DNI introducido ya existe en la base de datos");
+                }
 
+                if (borrar) {
+                    txtDni.setText("");
+                    txtPass.setText("");
+                    chkAdmin.setSelected(false);
+                }
 
-
-                txtDni.setText("");
-                txtPass.setText("");
-                chkAdmin.setSelected(false);
 
                 modeloLista = guC.cargarUsuarios();
                 listaUsuarios.setModel(modeloLista);

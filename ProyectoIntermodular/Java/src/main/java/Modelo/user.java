@@ -42,4 +42,8 @@ public class user {
     public String toString() {
         return dni + ' ' + admin;
     }
+
+    public String toStringComplete() {
+        return dni + ' ' + contraseña +' ' + admin;
+    }
 }

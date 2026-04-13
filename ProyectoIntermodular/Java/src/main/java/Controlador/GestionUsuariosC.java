@@ -51,10 +51,30 @@ public class GestionUsuariosC {
         return false;
     }
 
-    public boolean añadirUsuario(String dni, String password, Boolean admin){
 
 
+    public boolean añadirUsuario(user u){
+        try (Connection connection = Conexion.crearConexion()) {
+            PreparedStatement preparedStatement1 = connection.prepareStatement("select * from logged where dni = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into logged (dni, contraseña, admin) values (?, ?, ?)");
+            preparedStatement1.setString(1, u.getDni());
+            preparedStatement.setString(1, u.getDni());
+            preparedStatement.setString(2, u.getContraseña());
+            preparedStatement.setBoolean(3, u.isAdmin());
+            ResultSet r1 = preparedStatement1.executeQuery();
+            if (r1.next()) {
 
+                return false;
+            }
+            int res = preparedStatement.executeUpdate();
+            return res>0;
+
+        } catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
     }
+
+
 
 }
