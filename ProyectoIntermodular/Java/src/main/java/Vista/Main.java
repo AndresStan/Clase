@@ -13,15 +13,11 @@ public class Main extends Controlador {
 
 
                 JFrame frame = new JFrame("Gestor Gimnasio");
-
-                // 1. Panel con 5 filas y 1 columna
                 JPanel panel = new JPanel(new GridLayout(5, 1, 10, 20));
 
-                // 2. EL SECRETO: Grandes márgenes laterales y verticales para centrar todo
-                // (Arriba: 200, Izquierda: 200, Abajo: 200, Derecha: 200)
                 panel.setBorder(BorderFactory.createEmptyBorder(200, 200, 200, 200));
 
-                // 3. Componentes directos
+
                 JLabel titulo = new JLabel("LOGIN", SwingConstants.CENTER);
                 titulo.setFont(new Font("Arial", Font.BOLD, 25));
 
@@ -34,7 +30,7 @@ public class Main extends Controlador {
                 JButton btnEntrar = new JButton("ENTRAR");
                 btnEntrar.setBackground(Color.DARK_GRAY);
                 btnEntrar.setForeground(Color.WHITE);
-                btnEntrar.setFocusPainted(false); // Quita el recuadro feo al hacer clic
+                btnEntrar.setFocusPainted(false);
 
                 btnEntrar.addActionListener(new ActionListener() {
                     @Override
@@ -42,11 +38,10 @@ public class Main extends Controlador {
                         String dni = txtDni.getText();
                         String pass = new String(txtPass.getPassword());
 
-                        // La vista NO hace el insert, se lo pide al controlador
                         Controlador controlador = new Controlador();
                         if (controlador.verificarUsuario(dni, pass)){
                             frame.dispose();
-                            Gestor gestor = new Gestor();
+                            Gestor gestor = new Gestor(dni);
                         }
                     }
                 });
@@ -63,6 +58,11 @@ public class Main extends Controlador {
                 frame.setLocationRelativeTo(null);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(true);
+
+                /* bypass primera ventana*/
+
+                frame.dispose();
+                Gestor gestor = new Gestor("61091513V");
 
     }
 }

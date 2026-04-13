@@ -1,0 +1,30 @@
+@startuml
+class refactorizado.Pedido {
+- DescuentoStrategy descuentoStrategy
++ <<Create>> Pedido(DescuentoStrategy)
++ void procesarPedido(double)
+}
+
+
+class refactorizado.DescuentoVIP {
++ double aplicarDescuento(double)
+}
+
+class refactorizado.DescuentoNormal {
++ double aplicarDescuento(double)
+}
+
+interface refactorizado.DescuentoStrategy {
+~ double aplicarDescuento(double)
+}
+
+class original.Pedido {
++ void procesarPedido(String,double)
+}
+
+
+
+refactorizado.DescuentoStrategy <|.. refactorizado.DescuentoVIP
+refactorizado.DescuentoStrategy <|.. refactorizado.DescuentoNormal
+refactorizado.Pedido <.. refactorizado.DescuentoStrategy
+@enduml
