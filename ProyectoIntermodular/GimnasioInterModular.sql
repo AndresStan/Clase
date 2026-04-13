@@ -5,6 +5,12 @@ DROP DATABASE IF EXISTS GimnasioInterModular;
 CREATE DATABASE GimnasioInterModular;
 USE GimnasioInterModular;
 
+-- Creamos la tabla Logged que se usara para loguear a los usuarios
+CREATE TABLE Logged (
+	dni VARCHAR(9) NOT NULL PRIMARY KEY,
+	contraseña VARCHAR(20) NOT NULL
+);
+
 -- Creamos la Tabla Socio
 CREATE TABLE Socio (
     dni VARCHAR(20) NOT NULL,
@@ -50,3 +56,9 @@ CREATE TABLE Socio_Sala (
     CONSTRAINT fk_usa_socio FOREIGN KEY (dni_socio) REFERENCES Socio (dni),
     CONSTRAINT fk_usa_sala FOREIGN KEY (id_sala) REFERENCES Sala (id)
 );
+
+-- Insertamos el unico usuario que puede entrar al gesto
+
+insert into logged (dni, contraseña)
+values ("61091513V", "61091513V")
+ 
