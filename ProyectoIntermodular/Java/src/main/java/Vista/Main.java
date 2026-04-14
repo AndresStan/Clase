@@ -57,11 +57,11 @@ public class Main extends Controlador {
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(true);
 
-                /* bypass primera ventana
+                /* bypass primera ventana*/
 
                 frame.dispose();
                 Gestor gestor = new Gestor("61091513V");
-*/
+
 
 
     }

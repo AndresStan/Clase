@@ -3,7 +3,7 @@ package Modelo;
 import java.time.LocalDate;
 
 public class Pago {
-    private String id;
+    private int id;
     private String dniSocio;
     private LocalDate fecha;
     private double importe;
@@ -11,18 +11,18 @@ public class Pago {
     public Pago() {
     }
 
-    public Pago(String id, String dniSocio, LocalDate fecha, double importe) {
+    public Pago(int id, String dniSocio, LocalDate fecha, double importe) {
         this.id = id;
         this.dniSocio = dniSocio;
         this.fecha = fecha;
         this.importe = importe;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

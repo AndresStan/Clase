@@ -17,7 +17,7 @@ public class GestionUsuarios extends JFrame {
         setTitle("Gestión de Usuarios");
         setSize(700, 400);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 
         setLayout(new GridLayout(1, 2, 10, 10));
 

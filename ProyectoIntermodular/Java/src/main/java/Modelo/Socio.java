@@ -4,18 +4,18 @@ import java.time.LocalDate;
 
 public class Socio {
     private String dni;
-    private String correoElectronico;
     private String NombreCompleto;
+    private String correoElectronico;
     private LocalDate fechaAlta;
     private String telefono;
 
     public Socio() {
     }
 
-    public Socio(String dni, String correoElectronico, String nombreCompleto, LocalDate fechaAlta, String telefono) {
+    public Socio(String dni, String nombreCompleto, String correoElectronico, LocalDate fechaAlta, String telefono) {
         this.dni = dni;
-        this.correoElectronico = correoElectronico;
         NombreCompleto = nombreCompleto;
+        this.correoElectronico = correoElectronico;
         this.fechaAlta = fechaAlta;
         this.telefono = telefono;
     }
@@ -28,20 +28,20 @@ public class Socio {
         this.dni = dni;
     }
 
-    public String getCorreoElectronico() {
-        return correoElectronico;
-    }
-
-    public void setCorreoElectronico(String correoElectronico) {
-        this.correoElectronico = correoElectronico;
-    }
-
     public String getNombreCompleto() {
         return NombreCompleto;
     }
 
     public void setNombreCompleto(String nombreCompleto) {
         NombreCompleto = nombreCompleto;
+    }
+
+    public String getCorreoElectronico() {
+        return correoElectronico;
+    }
+
+    public void setCorreoElectronico(String correoElectronico) {
+        this.correoElectronico = correoElectronico;
     }
 
     public LocalDate getFechaAlta() {

@@ -1,24 +1,24 @@
 package Modelo;
 
 public class Entrenador {
-    private String id;
+    private int id;
     private String nombreCompleto;
     private String codigoSala;
 
     public Entrenador() {
     }
 
-    public Entrenador(String id, String nombreCompleto, String codigoSala) {
+    public Entrenador(int id, String nombreCompleto, String codigoSala) {
         this.id = id;
         this.nombreCompleto = nombreCompleto;
         this.codigoSala = codigoSala;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -1,26 +1,25 @@
 package Modelo;
 
 public class Sala {
-    private String id;
+    private int id;
     private String nombre;
     private int capacidad;
-    private String entrenador;
+
 
     public Sala() {
     }
 
-    public Sala(String id, String nombre, int capacidad, String entrenador) {
+    public Sala(int id, String nombre, int capacidad) {
         this.id = id;
         this.nombre = nombre;
         this.capacidad = capacidad;
-        this.entrenador = entrenador;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -40,11 +39,4 @@ public class Sala {
         this.capacidad = capacidad;
     }
 
-    public String getEntrenador() {
-        return entrenador;
-    }
-
-    public void setEntrenador(String entrenador) {
-        this.entrenador = entrenador;
-    }
 }
