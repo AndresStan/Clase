@@ -4,6 +4,7 @@ import Modelo.*;
 
 import javax.swing.*;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -48,7 +49,7 @@ public class Sentencias extends Conexion {
             return lista;
 
         } catch (SQLException e) {
-            System.out.println("Error mostrando libros con sus autores");
+
             e.printStackTrace();
         }
 
@@ -74,7 +75,7 @@ public class Sentencias extends Conexion {
             return lista;
 
         } catch (SQLException e) {
-            System.out.println("Error mostrando libros con sus autores");
+
             e.printStackTrace();
         }
 
@@ -99,7 +100,7 @@ public class Sentencias extends Conexion {
             return lista;
 
         } catch (SQLException e) {
-            System.out.println("Error mostrando libros con sus autores");
+
             e.printStackTrace();
         }
 
@@ -124,10 +125,147 @@ public class Sentencias extends Conexion {
             return lista;
 
         } catch (SQLException e) {
-            System.out.println("Error mostrando libros con sus autores");
+
             e.printStackTrace();
         }
 
         return new DefaultListModel<>();
     }
+
+    public static boolean EliminarObjeto(ArrayList<String> lista, int pestaña ){
+        try (Connection connection = Conexion.crearConexion()) {
+
+            switch (pestaña){
+                case 0: {
+                    try (Connection con = Conexion.crearConexion()) {
+                        PreparedStatement preparedStatement = connection.prepareStatement("Delete from entrenador where id = ?");
+                        preparedStatement.setString(1, lista.getFirst());
+                        int r = preparedStatement.executeUpdate();
+                        return r>0;
+                    } catch (Exception e){
+                        System.out.println(e);
+                    }
+                    return false;
+                }
+
+                case 1: {
+                    try (Connection con = Conexion.crearConexion()) {
+                        PreparedStatement preparedStatement = connection.prepareStatement("Delete from sala where id = ?");
+                        preparedStatement.setString(1, lista.getFirst());
+                        int r = preparedStatement.executeUpdate();
+                        return r>0;
+                    } catch (Exception e){
+                        System.out.println(e);
+                    }
+                    return false;
+                }
+
+                case 2: {
+                    try (Connection con = Conexion.crearConexion()) {
+                        PreparedStatement preparedStatement = connection.prepareStatement("Delete from socio where DNI = ?");
+                        preparedStatement.setString(1, lista.getFirst());
+                        int r = preparedStatement.executeUpdate();
+                        return r>0;
+                    } catch (Exception e){
+                        System.out.println(e);
+                    }
+                    return false;
+                }
+
+                case 3: {
+                    try (Connection con = Conexion.crearConexion()) {
+                        PreparedStatement preparedStatement = connection.prepareStatement("Delete from pago where id = ?");
+                        preparedStatement.setString(1, lista.getFirst());
+                        int r = preparedStatement.executeUpdate();
+                        return r>0;
+                    } catch (Exception e){
+                        System.out.println(e);
+                    }
+                    return false;
+                }
+
+            }
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+
+    public static boolean InsertarObjeto(ArrayList<String> lista, int pestaña ){
+        try (Connection connection = Conexion.crearConexion()) {
+
+            switch (pestaña){
+                case 0: {
+                   try (Connection con = Conexion.crearConexion()) {
+                       PreparedStatement preparedStatement = connection.prepareStatement("insert into entrenador (id, nombre_completo, codigoSala) values (?, ?, ?)");
+                       preparedStatement.setString(1, lista.get(0));
+                       preparedStatement.setString(2, lista.get(1));
+                       preparedStatement.setString(3, lista.get(2));
+                       int res = preparedStatement.executeUpdate();
+                       return res>0;
+                   } catch (Exception e) {
+                       throw new RuntimeException(e);
+                   }
+                }
+
+                case 1: {
+                    try (Connection con = Conexion.crearConexion()) {
+                        PreparedStatement preparedStatement = connection.prepareStatement("insert into sala (id, nombre, capacidad) values (?, ?, ?)");
+                        preparedStatement.setString(1, lista.get(0));
+                        preparedStatement.setString(2, lista.get(1));
+                        preparedStatement.setString(3, lista.get(2));
+                        int res = preparedStatement.executeUpdate();
+                        return res>0;
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                case 2: {
+                    try (Connection con = Conexion.crearConexion()) {
+                        PreparedStatement preparedStatement = connection.prepareStatement("insert into socio (dni, nombre_completo, correo_electronico, fecha_alta, telefono) values (?, ?, ?, ?, ?)");
+                        preparedStatement.setString(1, lista.get(0));
+                        preparedStatement.setString(2, lista.get(1));
+                        preparedStatement.setString(3, lista.get(2));
+                        preparedStatement.setString(4, lista.get(3));
+                        preparedStatement.setString(5, lista.get(4));
+                        int res = preparedStatement.executeUpdate();
+                        return res>0;
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                case 3: {
+                    try (Connection con = Conexion.crearConexion()) {
+                        PreparedStatement preparedStatement = connection.prepareStatement("insert into pago (id, dni_socio, fecha, importe) values (?, ?, ?, ?)");
+                        preparedStatement.setString(1, lista.get(0));
+                        preparedStatement.setString(2, lista.get(1));
+                        preparedStatement.setDate(3, java.sql.Date.valueOf(lista.get(2)));
+                        preparedStatement.setString(4, lista.get(3));
+                        int res = preparedStatement.executeUpdate();
+                        return res>0;
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+            }
+
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+
+
 }

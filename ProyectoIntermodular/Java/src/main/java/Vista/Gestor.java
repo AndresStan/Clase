@@ -11,8 +11,11 @@ import java.awt.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class Gestor extends JFrame {
 
@@ -25,6 +28,7 @@ public class Gestor extends JFrame {
     private DefaultTableModel modeloSocio;
     private DefaultTableModel modeloPago;
 
+    JTabbedPane pestanas;
     public Gestor(String dni) {
         // 1. Consultar en la BD si el DNI es administrador
         esAdmin = Verificacion.verificarRangoAdmin(dni);
@@ -70,7 +74,7 @@ public class Gestor extends JFrame {
         add(panelSuperior, BorderLayout.NORTH);
 
         // --- CUERPO CENTRAL (Pestañas) ---
-        JTabbedPane pestanas = new JTabbedPane();
+        pestanas = new JTabbedPane();
 
         modeloEntrenador = new DefaultTableModel(null, new String[]{"ID", "Nombre Completo", "Código Sala"});
         modeloSala = new DefaultTableModel(null, new String[]{"ID", "Nombre", "Capacidad"});
@@ -81,6 +85,9 @@ public class Gestor extends JFrame {
         pestanas.addTab("Sala", crearPanel("Sala", modeloSala));
         pestanas.addTab("Socio", crearPanel("Socio", modeloSocio));
         pestanas.addTab("Pago", crearPanel("Pago", modeloPago));
+
+
+
 
         add(pestanas, BorderLayout.CENTER);
 
@@ -96,6 +103,8 @@ public class Gestor extends JFrame {
                  GestionUsuarios gu = new GestionUsuarios();
             }
         });
+
+
 
         setVisible(true);
     }
@@ -179,13 +188,22 @@ public class Gestor extends JFrame {
         int numColumnas = modeloTabla.getColumnCount();
         JPanel panelFormulario = new JPanel(new GridLayout(2, numColumnas, 5, 5));
         JTextField[] camposTexto = new JTextField[numColumnas];
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+        JFormattedTextField txtFecha = new JFormattedTextField(df);
+
+
 
         for (int i = 0; i < numColumnas; i++) {
             panelFormulario.add(new JLabel(modeloTabla.getColumnName(i)));
         }
         for (int i = 0; i < numColumnas; i++) {
-            camposTexto[i] = new JTextField();
-            panelFormulario.add(camposTexto[i]);
+            if (modeloTabla.getColumnName(i).contains("Fecha")) {
+                panelFormulario.add(txtFecha);
+            } else {
+                camposTexto[i] = new JTextField();
+                panelFormulario.add(camposTexto[i]);
+            }
+
         }
 
         JPanel panelBotones = new JPanel(new FlowLayout());
@@ -225,6 +243,44 @@ public class Gestor extends JFrame {
         panelInferior.add(panelBotones, BorderLayout.SOUTH);
 
         panel.add(panelInferior, BorderLayout.SOUTH);
+
+        // EVENTO ELIMINAR MIEMBRO
+        btnEliminar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<String> lista = new ArrayList<>();
+                for (JTextField campo : camposTexto){
+                    lista.add(campo.getText());
+
+                }
+                if (Sentencias.EliminarObjeto(lista, pestanas.getSelectedIndex())){
+                    JOptionPane.showMessageDialog(panel, "Eliminado correctamente");
+                } else {
+                    JOptionPane.showMessageDialog( panel, "Eliminado incorrectamente");
+                }
+                cargarDatos();
+
+            }
+        });
+
+        // EVENTO INSERTAR
+
+        btnInsertar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<String> lista = new ArrayList<>();
+                for (JTextField campo : camposTexto){
+                    lista.add(campo.getText());
+                }
+                if (Sentencias.InsertarObjeto(lista, pestanas.getSelectedIndex())){
+                    JOptionPane.showMessageDialog(panel, "Insertado correctamente");
+                } else {
+                    JOptionPane.showMessageDialog( panel, "Insertado incorrectamente");
+                }
+                cargarDatos();
+
+            }
+        });
 
         return panel;
     }

@@ -34,7 +34,7 @@ CREATE TABLE Sala (
 CREATE TABLE Entrenador (
     id INT NOT NULL,
     nombre_completo VARCHAR(100) NOT NULL,
-    codigoSala VARCHAR(20),
+    codigoSala int(20),
     CONSTRAINT pk_entrenador PRIMARY KEY (id),
     CONSTRAINT fk_entrenador_sala FOREIGN KEY (codigoSala) REFERENCES Sala (id)
 );
