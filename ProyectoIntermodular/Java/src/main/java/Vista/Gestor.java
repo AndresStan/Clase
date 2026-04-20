@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.EventListener;
 
 public class Gestor extends JFrame {
 
@@ -188,22 +189,21 @@ public class Gestor extends JFrame {
         int numColumnas = modeloTabla.getColumnCount();
         JPanel panelFormulario = new JPanel(new GridLayout(2, numColumnas, 5, 5));
         JTextField[] camposTexto = new JTextField[numColumnas];
-        DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-        JFormattedTextField txtFecha = new JFormattedTextField(df);
 
-
-
+        // 1. Añadir las etiquetas (Fila superior del grid)
         for (int i = 0; i < numColumnas; i++) {
             panelFormulario.add(new JLabel(modeloTabla.getColumnName(i)));
         }
-        for (int i = 0; i < numColumnas; i++) {
-            if (modeloTabla.getColumnName(i).contains("Fecha")) {
-                panelFormulario.add(txtFecha);
-            } else {
-                camposTexto[i] = new JTextField();
-                panelFormulario.add(camposTexto[i]);
-            }
 
+        // 2. Añadir los campos (Fila inferior del grid)
+        for (int i = 0; i < numColumnas; i++) {
+            // Verificamos si la columna es de tipo fecha
+
+                camposTexto[i] = new JTextField();
+
+
+            // Añadimos el componente (sea normal o de fecha) al panel
+            panelFormulario.add(camposTexto[i]);
         }
 
         JPanel panelBotones = new JPanel(new FlowLayout());
@@ -253,11 +253,13 @@ public class Gestor extends JFrame {
                     lista.add(campo.getText());
 
                 }
-                if (Sentencias.EliminarObjeto(lista, pestanas.getSelectedIndex())){
+                try {
+                    Sentencias.EliminarObjeto(lista, pestanas.getSelectedIndex());
                     JOptionPane.showMessageDialog(panel, "Eliminado correctamente");
-                } else {
-                    JOptionPane.showMessageDialog( panel, "Eliminado incorrectamente");
-                }
+                }   catch (Throwable t) {
+                    JOptionPane.showMessageDialog(panel, "Error: " + t.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                 }
+
                 cargarDatos();
 
             }
@@ -272,10 +274,37 @@ public class Gestor extends JFrame {
                 for (JTextField campo : camposTexto){
                     lista.add(campo.getText());
                 }
-                if (Sentencias.InsertarObjeto(lista, pestanas.getSelectedIndex())){
+                int num;
+                if ((num = Sentencias.InsertarObjeto(lista, pestanas.getSelectedIndex())) > 0) {
                     JOptionPane.showMessageDialog(panel, "Insertado correctamente");
                 } else {
-                    JOptionPane.showMessageDialog( panel, "Insertado incorrectamente");
+                    if (num == -1){
+                        JOptionPane.showMessageDialog(panel, "Error clave primaria duplicada (ya existe un registro con esos datos)");
+                    }
+                    if (num == -2){
+                        JOptionPane.showMessageDialog(panel, "Error clave foránea (no existe registro con ese ID)");
+                    }
+                    if (num == -3) {
+                        JOptionPane.showMessageDialog(panel, "El nombre completo debe seguir el formato oficial Ejemplo 'Pedro Garcia Ruiz'");
+                    }
+                    if (num == -4) {
+                        JOptionPane.showMessageDialog(panel, "Asegurate de introducir el DNI con el formato correcto (00000000A)");
+                    }
+                    if (num == -67) {
+                        JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos correctamente");
+                    }
+                    if (num == -5) {
+                        JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos de Correo Electronico correctamente");
+                    }
+                    if (num == -6) {
+                        JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos de Fecha con el siguiente formato (YYYY/MM/DD)");
+                    }
+                    if (num == -7) {
+                        JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos de un Telefono español valido");
+                    }
+                    if (num == -88) {
+                        JOptionPane.showMessageDialog(panel, "Asegurate de introducir un importe valido");
+                    }
                 }
                 cargarDatos();
 

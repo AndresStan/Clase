@@ -8,6 +8,58 @@ public class Regex {
 
     static GestionUsuariosC guC = new GestionUsuariosC();
 
+    public static boolean validarTelefono(String telefono) {
+
+        String regex = "^[67][0-9]{8}$";
+        return telefono != null && telefono.matches(regex);
+    }
+
+
+    public static boolean esImportePositivo(String texto) {
+        try {
+            // Convertimos a double (acepta enteros y decimales)
+            // Reemplazamos la coma por punto por si el usuario usa formato europeo
+            double valor = Double.parseDouble(texto.replace(",", "."));
+
+            return valor > 0;
+        } catch (Exception e) {
+            // Si no es un número (ej: "abc") o está vacío, devuelve false
+            return false;
+        }
+    }
+
+
+    public static boolean validarFecha(String fecha) {
+        String regex = "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$";
+        return fecha != null && fecha.matches(regex);
+    }
+
+
+    public static boolean validarCorreo(String correo) {
+        String regex = "^[\\w.-]+@[a-zA-Z\\d.-]+\\.[a-zA-Z]{2,6}$";
+        return correo != null && correo.matches(regex);
+    }
+
+    public static boolean validarFormatoDNI(String dni) {
+        String regex = "^[0-9]{8}[A-Za-z]$";
+        return dni != null && dni.matches(regex);
+    }
+
+
+    public static boolean verificarNombreCompleto(String nombre) {
+        // La regex verifica:
+        // 1. Que empiece por Mayúscula (incluye tildes y Ñ)
+        // 2. Que siga por una o más minúsculas
+        // 3. Que si hay espacios, la siguiente palabra repita el patrón
+        String regex = "^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)(\\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)*$";
+
+        if (nombre == null || nombre.trim().isEmpty()) {
+            return false;
+        }
+
+        return nombre.matches(regex);
+    }
+
     public static int verificarAñadirUsuario(String dni, String pass , boolean admin) {
 
         Pattern dniPattern = Pattern.compile("^\\d{8}[A-Za-z]$");

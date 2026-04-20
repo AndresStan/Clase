@@ -18,7 +18,6 @@ public class Main extends Controlador {
 
                 JLabel titulo = new JLabel("LOGIN", SwingConstants.CENTER);
                 titulo.setFont(new Font("Arial", Font.BOLD, 25));
-
                 JTextField txtDni = new JTextField();
                 txtDni.setBorder(BorderFactory.createTitledBorder("DNI"));
 
@@ -57,10 +56,13 @@ public class Main extends Controlador {
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(true);
 
-                /* bypass primera ventana */
+                /* bypass primera ventana
 
                 frame.dispose();
                 Gestor gestor = new Gestor("61091513V");
+
+ */
+
 
 
 

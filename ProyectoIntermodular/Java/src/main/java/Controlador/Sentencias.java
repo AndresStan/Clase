@@ -1,6 +1,7 @@
 package Controlador;
 
 import Modelo.*;
+import Vista.Gestor;
 
 import javax.swing.*;
 import java.sql.*;
@@ -9,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Sentencias extends Conexion {
+
+
 
     public static boolean validarUsuario(String dni, String password) {
         String sql = "SELECT dni FROM logged WHERE dni = ? AND contraseña = ?";
@@ -142,10 +145,9 @@ public class Sentencias extends Conexion {
                         preparedStatement.setString(1, lista.getFirst());
                         int r = preparedStatement.executeUpdate();
                         return r>0;
-                    } catch (Exception e){
-                        System.out.println(e);
+                    } catch (SQLException t){
+                        return false;
                     }
-                    return false;
                 }
 
                 case 1: {
@@ -188,7 +190,7 @@ public class Sentencias extends Conexion {
 
 
 
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -196,38 +198,83 @@ public class Sentencias extends Conexion {
     }
 
 
-    public static boolean InsertarObjeto(ArrayList<String> lista, int pestaña ){
+    public static int InsertarObjeto(ArrayList<String> lista, int pestaña ){
         try (Connection connection = Conexion.crearConexion()) {
 
             switch (pestaña){
                 case 0: {
                    try (Connection con = Conexion.crearConexion()) {
+                       if (!Regex.verificarNombreCompleto(lista.get(1))){
+                           return -3;
+                       }
                        PreparedStatement preparedStatement = connection.prepareStatement("insert into entrenador (id, nombre_completo, codigoSala) values (?, ?, ?)");
                        preparedStatement.setString(1, lista.get(0));
                        preparedStatement.setString(2, lista.get(1));
                        preparedStatement.setString(3, lista.get(2));
                        int res = preparedStatement.executeUpdate();
-                       return res>0;
-                   } catch (Exception e) {
-                       throw new RuntimeException(e);
+                       return 1;
+                   } catch (SQLException e) {
+                       int codigo = e.getErrorCode(); // Obtiene el código numérico del motor
+                       if (codigo == 1062) {
+                          return -1; // clave duplicada
+                       } else if (codigo == 1451 || codigo == 1452) {
+                           return  -2; // No existe sala con ese id
+                       } else {
+                           return -67; // error desconocido
+                       }
                    }
                 }
 
                 case 1: {
                     try (Connection con = Conexion.crearConexion()) {
+                        if (!Regex.verificarNombreCompleto(lista.get(1))){
+                            return -3;
+                        }
+
+
                         PreparedStatement preparedStatement = connection.prepareStatement("insert into sala (id, nombre, capacidad) values (?, ?, ?)");
                         preparedStatement.setString(1, lista.get(0));
                         preparedStatement.setString(2, lista.get(1));
                         preparedStatement.setString(3, lista.get(2));
                         int res = preparedStatement.executeUpdate();
-                        return res>0;
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        return 1;
+                    } catch (SQLException e) {
+                        int codigo = e.getErrorCode(); // Obtiene el código numérico del motor
+                        if (codigo == 1062) {
+                            return -1; // clave duplicada
+                        } else {
+                            return -67; // error desconocido
+                        }
                     }
                 }
 
                 case 2: {
                     try (Connection con = Conexion.crearConexion()) {
+                        if (!Regex.verificarNombreCompleto(lista.get(1))){
+                            return -3;
+                        }
+
+                        if (!Regex.validarFormatoDNI(lista.get(0))){
+                            return -4;
+                        }
+
+
+                        if (!Regex.validarCorreo(lista.get(2))){
+                            return -5;
+                        }
+
+                        if (!Regex.validarFecha(lista.get(3))){
+                            return -6;
+                        }
+
+                        if (!Regex.validarTelefono(lista.get(4))){
+                            return -7;
+                        }
+
+
+
+
+
                         PreparedStatement preparedStatement = connection.prepareStatement("insert into socio (dni, nombre_completo, correo_electronico, fecha_alta, telefono) values (?, ?, ?, ?, ?)");
                         preparedStatement.setString(1, lista.get(0));
                         preparedStatement.setString(2, lista.get(1));
@@ -235,23 +282,50 @@ public class Sentencias extends Conexion {
                         preparedStatement.setString(4, lista.get(3));
                         preparedStatement.setString(5, lista.get(4));
                         int res = preparedStatement.executeUpdate();
-                        return res>0;
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        return 1;
+                    } catch (SQLException e) {
+                        int codigo = e.getErrorCode(); // Obtiene el código numérico del motor
+                        if (codigo == 1062) {
+                            return -1; // clave duplicada
+                        } else {
+                            return -67; // error desconocido
+                        }
                     }
                 }
 
                 case 3: {
                     try (Connection con = Conexion.crearConexion()) {
+
+                        if (!Regex.validarFormatoDNI(lista.get(1))){
+                            return -4;
+                        }
+                        if (!Regex.validarFecha(lista.get(2))){
+                            return -6;
+                        }
+                        if (!Regex.esImportePositivo(lista.get(3))){
+                            return -88;
+                        }
+
+
+
                         PreparedStatement preparedStatement = connection.prepareStatement("insert into pago (id, dni_socio, fecha, importe) values (?, ?, ?, ?)");
                         preparedStatement.setString(1, lista.get(0));
                         preparedStatement.setString(2, lista.get(1));
-                        preparedStatement.setDate(3, java.sql.Date.valueOf(lista.get(2)));
+                        preparedStatement.setString(3, lista.get(2));
                         preparedStatement.setString(4, lista.get(3));
                         int res = preparedStatement.executeUpdate();
-                        return res>0;
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        return 1;
+                    } catch (SQLException e) {
+                        int codigo = e.getErrorCode(); // Obtiene el código numérico del motor
+                        if (codigo == 1062) {
+                            return -1; // clave duplicada
+
+                        } else if (codigo == 1451 || codigo == 1452) {
+                            return  -2;
+                        } else {
+                            return -67; // error desconocido
+                        }
+
                     }
                 }
 
@@ -263,7 +337,7 @@ public class Sentencias extends Conexion {
             e.printStackTrace();
         }
 
-        return false;
+        return -3;
     }
 
 
