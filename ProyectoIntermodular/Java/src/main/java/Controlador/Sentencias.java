@@ -198,6 +198,68 @@ public class Sentencias extends Conexion {
     }
 
 
+
+
+
+
+    public static int DevolverUltimoIDMas1(int pestaña){
+        try (Connection connection = Conexion.crearConexion()) {
+
+            switch (pestaña){
+                case 0: {
+                    try (Connection con = Conexion.crearConexion()) {
+                        Statement statement = connection.createStatement();
+                        ResultSet resultSet = statement.executeQuery("SELECT MAX(id) as ud FROM entrenador");
+                        while (resultSet.next()){
+                            return resultSet.getInt("ud");
+                        }
+                    } catch (SQLException t){
+                        System.out.println("Error devolver ultimo id");
+                    }
+                }
+
+
+
+                case 1: {
+                    try (Connection con = Conexion.crearConexion()) {
+                        Statement statement = connection.createStatement();
+                        ResultSet resultSet = statement.executeQuery("SELECT MAX(id) as ud FROM sala");
+                        while (resultSet.next()){
+                            return resultSet.getInt("ud");
+                        }
+                    } catch (SQLException t){
+                        System.out.println("Error devolver ultimo id");
+                    }
+                }
+
+                case 3: {
+                    try (Connection con = Conexion.crearConexion()) {
+                        Statement statement = connection.createStatement();
+                        ResultSet resultSet = statement.executeQuery("SELECT MAX(id) as ud FROM pago");
+                        while (resultSet.next()){
+                            return resultSet.getInt("ud");
+                        }
+                    } catch (SQLException t){
+                        System.out.println("Error devolver ultimo id");
+                    }
+                }
+
+
+            }
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return pestaña;
+    }
+
+
+
+
     public static int InsertarObjeto(ArrayList<String> lista, int pestaña ){
         try (Connection connection = Conexion.crearConexion()) {
 
@@ -207,8 +269,9 @@ public class Sentencias extends Conexion {
                        if (!Regex.verificarNombreCompleto(lista.get(1))){
                            return -3;
                        }
+
                        PreparedStatement preparedStatement = connection.prepareStatement("insert into entrenador (id, nombre_completo, codigoSala) values (?, ?, ?)");
-                       preparedStatement.setString(1, lista.get(0));
+                       preparedStatement.setString(1, String.valueOf(DevolverUltimoIDMas1(pestaña)+1));
                        preparedStatement.setString(2, lista.get(1));
                        preparedStatement.setString(3, lista.get(2));
                        int res = preparedStatement.executeUpdate();
@@ -233,7 +296,7 @@ public class Sentencias extends Conexion {
 
 
                         PreparedStatement preparedStatement = connection.prepareStatement("insert into sala (id, nombre, capacidad) values (?, ?, ?)");
-                        preparedStatement.setString(1, lista.get(0));
+                        preparedStatement.setString(1, String.valueOf(DevolverUltimoIDMas1(pestaña)+1));
                         preparedStatement.setString(2, lista.get(1));
                         preparedStatement.setString(3, lista.get(2));
                         int res = preparedStatement.executeUpdate();
@@ -309,7 +372,7 @@ public class Sentencias extends Conexion {
 
 
                         PreparedStatement preparedStatement = connection.prepareStatement("insert into pago (id, dni_socio, fecha, importe) values (?, ?, ?, ?)");
-                        preparedStatement.setString(1, lista.get(0));
+                        preparedStatement.setString(1, String.valueOf(DevolverUltimoIDMas1(pestaña)+1));
                         preparedStatement.setString(2, lista.get(1));
                         preparedStatement.setString(3, lista.get(2));
                         preparedStatement.setString(4, lista.get(3));

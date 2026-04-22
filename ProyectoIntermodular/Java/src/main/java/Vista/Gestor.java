@@ -97,6 +97,7 @@ public class Gestor extends JFrame {
 
         // --- EVENTOS ---
         btnRefrescar.addActionListener(e -> cargarDatos());
+        btnRefrescar.addActionListener(e -> System.out.println(pestanas.getSelectedIndex()));
 
         btnAddUser.addActionListener(new ActionListener() {
             @Override
@@ -109,6 +110,9 @@ public class Gestor extends JFrame {
 
         setVisible(true);
     }
+
+
+
 
     // Método donde meterás las consultas SQL para rellenar las tablas
     public void cargarDatos() {
@@ -197,19 +201,35 @@ public class Gestor extends JFrame {
 
         // 2. Añadir los campos (Fila inferior del grid)
         for (int i = 0; i < numColumnas; i++) {
-            // Verificamos si la columna es de tipo fecha
-
                 camposTexto[i] = new JTextField();
-
-
-            // Añadimos el componente (sea normal o de fecha) al panel
-            panelFormulario.add(camposTexto[i]);
+                panelFormulario.add(camposTexto[i]);
         }
+
+        pestanas.addChangeListener(new javax.swing.event.ChangeListener() {
+            @Override
+            public void stateChanged(javax.swing.event.ChangeEvent e) {
+                int index = pestanas.getSelectedIndex();
+
+                // Aplicamos tu lógica
+                if (index == 0 || index == 1 || index == 3) {
+                    camposTexto[0].setEditable(false);
+                    // Opcional: cambia el color para que sea visual
+                    camposTexto[0].setBackground(new java.awt.Color(240, 240, 240));
+                } else {
+                    camposTexto[0].setEditable(true);
+                    camposTexto[0].setBackground(java.awt.Color.WHITE);
+                }
+            }
+        });
+
+
+
 
         JPanel panelBotones = new JPanel(new FlowLayout());
         JButton btnInsertar = new JButton("Insertar");
         JButton btnModificar = new JButton("Modificar");
         JButton btnEliminar = new JButton("Eliminar");
+
 
         btnEliminar.setEnabled(false);
         btnModificar.setEnabled(false);
@@ -233,6 +253,7 @@ public class Gestor extends JFrame {
                     }
                 }
             }
+
         });
 
         panelBotones.add(btnInsertar);
