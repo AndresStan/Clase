@@ -7,6 +7,7 @@ import Modelo.Pago;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.*;
 
 import java.awt.event.ActionEvent;
@@ -22,6 +23,7 @@ public class Gestor extends JFrame {
 
     private boolean esAdmin = false;
     Sentencias s = new Sentencias();
+    Main main = new Main();
 
     // Modelos para las 4 tablas
     private DefaultTableModel modeloEntrenador;
@@ -67,6 +69,11 @@ public class Gestor extends JFrame {
         JButton btnRefrescar = new JButton("Refrescar");
         panelBotonesTop.add(btnRefrescar);
 
+        JButton btnCerrarSesion = new JButton("Cerrar Sesion");
+        btnCerrarSesion.setBackground(new java.awt.Color(255, 204, 204)); // Un tono rojizo suave
+        panelBotonesTop.add(btnCerrarSesion);
+
+
         JButton btnAddUser = new JButton("Gestionar usuarios");
         if (esAdmin) {
             panelBotonesTop.add(btnAddUser);
@@ -106,9 +113,28 @@ public class Gestor extends JFrame {
             }
         });
 
+        btnCerrarSesion.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int respuesta = JOptionPane.showConfirmDialog(
+                        Gestor.this,
+                        "¿Estás seguro de que quieres cerrar sesión?",
+                        "Cerrar Sesión",
+                        JOptionPane.YES_NO_OPTION
+                );
 
+                if (respuesta == JOptionPane.YES_OPTION) {
+
+                    dispose();
+                    System.exit(0);
+
+                }
+            }
+        });
 
         setVisible(true);
+
+
     }
 
 
@@ -185,35 +211,54 @@ public class Gestor extends JFrame {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
+        // --- CONFIGURACIÓN DE FILTRO --- // <--- NUEVO
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modeloTabla);
         JTable tabla = new JTable(modeloTabla);
+        tabla.setRowSorter(sorter);
+
+        // --- BARRA DE BÚSQUEDA --- // <--- NUEVO
+        JPanel panelBusqueda = new JPanel(new BorderLayout(5, 0));
+        panelBusqueda.add(new JLabel("Buscar: "), BorderLayout.WEST);
+        JTextField txtBuscador = new JTextField();
+        panelBusqueda.add(txtBuscador, BorderLayout.CENTER);
+
+        txtBuscador.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            public void insertUpdate(javax.swing.event.DocumentEvent e) { filtrar(); }
+            public void removeUpdate(javax.swing.event.DocumentEvent e) { filtrar(); }
+            public void changedUpdate(javax.swing.event.DocumentEvent e) { filtrar(); }
+            private void filtrar() {
+                String texto = txtBuscador.getText();
+                if (texto.trim().length() == 0) {
+                    sorter.setRowFilter(null);
+                } else {
+                    sorter.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
+                }
+            }
+        });
+
+        panel.add(panelBusqueda, BorderLayout.NORTH); // <--- AÑADIR BUSCADOR ARRIBA
         panel.add(new JScrollPane(tabla), BorderLayout.CENTER);
 
         JPanel panelInferior = new JPanel(new BorderLayout(0, 15));
-
         int numColumnas = modeloTabla.getColumnCount();
         JPanel panelFormulario = new JPanel(new GridLayout(2, numColumnas, 5, 5));
         JTextField[] camposTexto = new JTextField[numColumnas];
 
-        // 1. Añadir las etiquetas (Fila superior del grid)
         for (int i = 0; i < numColumnas; i++) {
             panelFormulario.add(new JLabel(modeloTabla.getColumnName(i)));
         }
 
-        // 2. Añadir los campos (Fila inferior del grid)
         for (int i = 0; i < numColumnas; i++) {
-                camposTexto[i] = new JTextField();
-                panelFormulario.add(camposTexto[i]);
+            camposTexto[i] = new JTextField();
+            panelFormulario.add(camposTexto[i]);
         }
 
         pestanas.addChangeListener(new javax.swing.event.ChangeListener() {
             @Override
             public void stateChanged(javax.swing.event.ChangeEvent e) {
                 int index = pestanas.getSelectedIndex();
-
-                // Aplicamos tu lógica
                 if (index == 0 || index == 1 || index == 3) {
                     camposTexto[0].setEditable(false);
-                    // Opcional: cambia el color para que sea visual
                     camposTexto[0].setBackground(new java.awt.Color(240, 240, 240));
                 } else {
                     camposTexto[0].setEditable(true);
@@ -222,29 +267,27 @@ public class Gestor extends JFrame {
             }
         });
 
-
-
-
         JPanel panelBotones = new JPanel(new FlowLayout());
         JButton btnInsertar = new JButton("Insertar");
         JButton btnModificar = new JButton("Modificar");
         JButton btnEliminar = new JButton("Eliminar");
-
 
         btnEliminar.setEnabled(false);
         btnModificar.setEnabled(false);
 
         tabla.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
-                boolean haySeleccion = tabla.getSelectedRow() != -1;
+                int filaSeleccionada = tabla.getSelectedRow();
+                boolean haySeleccion = filaSeleccionada != -1;
                 btnInsertar.setEnabled(!haySeleccion);
                 btnEliminar.setEnabled(haySeleccion);
                 btnModificar.setEnabled(haySeleccion);
 
-                // Extra: Si hay selección, pasar los datos a las cajas de texto (opcional pero muy útil)
                 if(haySeleccion) {
+                    // CORRECCIÓN: Convertir índice para que funcione con el filtro // <--- IMPORTANTE
+                    int modelRow = tabla.convertRowIndexToModel(filaSeleccionada);
                     for(int i = 0; i < numColumnas; i++) {
-                        Object valor = tabla.getValueAt(tabla.getSelectedRow(), i);
+                        Object valor = modeloTabla.getValueAt(modelRow, i);
                         camposTexto[i].setText(valor != null ? valor.toString() : "");
                     }
                 } else {
@@ -253,7 +296,6 @@ public class Gestor extends JFrame {
                     }
                 }
             }
-
         });
 
         panelBotones.add(btnInsertar);
@@ -334,4 +376,7 @@ public class Gestor extends JFrame {
 
         return panel;
     }
+
+
+
 }
