@@ -353,6 +353,9 @@ public class Gestor extends JFrame {
                         if (num == -6){
                             JOptionPane.showMessageDialog(panel, "Error clave foránea (no existe registro con ese ID)");
                         }
+                        if (num == -21){
+                            JOptionPane.showMessageDialog(panel, "Error la capacidad debe ser un numero entero valido");
+                        }
                     }
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);

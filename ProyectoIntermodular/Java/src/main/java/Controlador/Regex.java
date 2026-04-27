@@ -45,6 +45,11 @@ public class Regex {
         return dni != null && dni.matches(regex);
     }
 
+    public static boolean esEntero(String valor) {
+        return valor != null && valor.matches("-?\\d+");
+    }
+
+
 
     public static boolean verificarNombreCompleto(String nombre) {
         // La regex verifica:

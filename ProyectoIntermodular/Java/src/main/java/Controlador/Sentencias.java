@@ -412,8 +412,6 @@ public class Sentencias extends Conexion {
                         return -1;
                     }
 
-
-
                     try (Connection connection = Conexion.crearConexion()) {
                         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE ENTRENADOR SET nombre_completo = ?, codigoSala = ? where id = ?");
                         preparedStatement.setString(1, obj.get(1));
@@ -436,6 +434,31 @@ public class Sentencias extends Conexion {
 
 
                 case 1:
+
+                    if (!Regex.esEntero(obj.get(2))){
+                        return -21;
+                    }
+
+                    if (!Regex.verificarNombreCompleto(obj.get(1))){
+                        return -1;
+                    }
+
+                    try (Connection connection = Conexion.crearConexion()) {
+                        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE sala SET nombre = ?, capacidad = ? where id = ?");
+                        preparedStatement.setString(1, obj.get(1));
+                        preparedStatement.setString(2, obj.get(2));
+                        preparedStatement.setString(3, obj.get(0));
+                        int filas = preparedStatement.executeUpdate();
+                        if (filas > 0) {
+                            return 10;
+                        }
+
+
+                    } catch (SQLException e) {
+
+                    }
+
+
                 case 2:
                 case 3:
 
