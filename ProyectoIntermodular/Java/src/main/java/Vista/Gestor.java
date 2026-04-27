@@ -12,6 +12,7 @@ import java.awt.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -93,7 +94,6 @@ public class Gestor extends JFrame {
         pestanas.addTab("Sala", crearPanel("Sala", modeloSala));
         pestanas.addTab("Socio", crearPanel("Socio", modeloSocio));
         pestanas.addTab("Pago", crearPanel("Pago", modeloPago));
-
 
 
 
@@ -211,12 +211,15 @@ public class Gestor extends JFrame {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // --- CONFIGURACIÓN DE FILTRO --- // <--- NUEVO
+
+
+
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modeloTabla);
         JTable tabla = new JTable(modeloTabla);
         tabla.setRowSorter(sorter);
 
-        // --- BARRA DE BÚSQUEDA --- // <--- NUEVO
+
+
         JPanel panelBusqueda = new JPanel(new BorderLayout(5, 0));
         panelBusqueda.add(new JLabel("Buscar: "), BorderLayout.WEST);
         JTextField txtBuscador = new JTextField();
@@ -283,8 +286,8 @@ public class Gestor extends JFrame {
                 btnEliminar.setEnabled(haySeleccion);
                 btnModificar.setEnabled(haySeleccion);
 
+
                 if(haySeleccion) {
-                    // CORRECCIÓN: Convertir índice para que funcione con el filtro // <--- IMPORTANTE
                     int modelRow = tabla.convertRowIndexToModel(filaSeleccionada);
                     for(int i = 0; i < numColumnas; i++) {
                         Object valor = modeloTabla.getValueAt(modelRow, i);
@@ -324,6 +327,45 @@ public class Gestor extends JFrame {
                  }
 
                 cargarDatos();
+
+            }
+        });
+        // EVENTO MODIFICAR
+        btnModificar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                ArrayList<String> lista = new ArrayList<>();
+                for (JTextField campo : camposTexto){
+                    lista.add(campo.getText());
+                }
+
+                int num;
+
+                try {
+                    if ((num = Sentencias.modificarObjeto(lista, pestanas.getSelectedIndex())) == 10) {
+                        JOptionPane.showMessageDialog(panel, "Modificado correctamente");
+                        cargarDatos();
+                    } else {
+                        if (num == -1){
+                            JOptionPane.showMessageDialog(panel, "El nombre completo debe seguir el formato oficial Ejemplo 'Pedro Garcia Ruiz'");
+                        }
+                        if (num == -6){
+                            JOptionPane.showMessageDialog(panel, "Error clave foránea (no existe registro con ese ID)");
+                        }
+                    }
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+
+
+
+
+
+
+
+
 
             }
         });
@@ -376,6 +418,8 @@ public class Gestor extends JFrame {
 
         return panel;
     }
+
+
 
 
 

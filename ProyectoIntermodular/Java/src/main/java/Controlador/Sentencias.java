@@ -403,6 +403,48 @@ public class Sentencias extends Conexion {
         return -3;
     }
 
+    // Funcion Modificar
+        public static int modificarObjeto(ArrayList<String> obj, int pestaña) throws SQLException {
+            switch (pestaña){
+                case 0:
+
+                    if (!Regex.verificarNombreCompleto(obj.get(1))){
+                        return -1;
+                    }
+
+
+
+                    try (Connection connection = Conexion.crearConexion()) {
+                        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE ENTRENADOR SET nombre_completo = ?, codigoSala = ? where id = ?");
+                        preparedStatement.setString(1, obj.get(1));
+                        preparedStatement.setString(2, obj.get(2));
+                        preparedStatement.setString(3, obj.get(0));
+                        int filas = preparedStatement.executeUpdate();
+
+                        if (filas > 0) {
+                            return 10;
+                        }
+
+
+                    } catch (SQLException e) {
+                        int codigo = e.getErrorCode();
+                        if (codigo == 1452) {
+                            return -6; // clave duplicada
+                        }
+                    }
+
+
+
+                case 1:
+                case 2:
+                case 3:
+
+
+
+            }
+            return 1;
+        }
+
 
 
 }
