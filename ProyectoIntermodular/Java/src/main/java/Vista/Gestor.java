@@ -208,6 +208,9 @@ public class Gestor extends JFrame {
     }
 
     private JPanel crearPanel(String nombreTabla, DefaultTableModel modeloTabla) {
+
+
+
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -215,7 +218,13 @@ public class Gestor extends JFrame {
 
 
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modeloTabla);
-        JTable tabla = new JTable(modeloTabla);
+        JTable tabla = new JTable(modeloTabla) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Bloquea la edición a nivel de UI, sin importar el modelo
+            }
+        };
+
         tabla.setRowSorter(sorter);
 
 
@@ -236,8 +245,11 @@ public class Gestor extends JFrame {
                 } else {
                     sorter.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
                 }
+                cargarDatos();
             }
         });
+
+
 
         panel.add(panelBusqueda, BorderLayout.NORTH); // <--- AÑADIR BUSCADOR ARRIBA
         panel.add(new JScrollPane(tabla), BorderLayout.CENTER);
@@ -259,14 +271,14 @@ public class Gestor extends JFrame {
         pestanas.addChangeListener(new javax.swing.event.ChangeListener() {
             @Override
             public void stateChanged(javax.swing.event.ChangeEvent e) {
-                int index = pestanas.getSelectedIndex();
-                if (index == 0 || index == 1 || index == 3) {
-                    camposTexto[0].setEditable(false);
-                    camposTexto[0].setBackground(new java.awt.Color(240, 240, 240));
-                } else {
+                camposTexto[0].setEditable(false);
+                if (pestanas.getSelectedIndex() == 2){
                     camposTexto[0].setEditable(true);
-                    camposTexto[0].setBackground(java.awt.Color.WHITE);
+                    camposTexto[0].setBackground(new java.awt.Color(255, 255, 255));
+                } else {
+                    camposTexto[0].setBackground(new java.awt.Color(240, 240, 240));
                 }
+
             }
         });
 
@@ -287,15 +299,24 @@ public class Gestor extends JFrame {
                 btnModificar.setEnabled(haySeleccion);
 
 
+
                 if(haySeleccion) {
                     int modelRow = tabla.convertRowIndexToModel(filaSeleccionada);
                     for(int i = 0; i < numColumnas; i++) {
                         Object valor = modeloTabla.getValueAt(modelRow, i);
                         camposTexto[i].setText(valor != null ? valor.toString() : "");
+
+                    }
+                    if (pestanas.getSelectedIndex() == 2){
+                        camposTexto[0].setEditable(false);
                     }
                 } else {
                     for(int i = 0; i < numColumnas; i++) {
                         camposTexto[i].setText("");
+                    }
+                    if (pestanas.getSelectedIndex() == 2){
+                        camposTexto[0].setEditable(true);
+                        camposTexto[0].setBackground(new java.awt.Color(255, 255, 255));
                     }
                 }
             }
@@ -356,6 +377,22 @@ public class Gestor extends JFrame {
                         if (num == -21){
                             JOptionPane.showMessageDialog(panel, "Error la capacidad debe ser un numero entero valido");
                         }
+                        if (num == -80){
+                            JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos de Correo Electronico correctamente");
+                        }
+                        if (num == -81){
+                            JOptionPane.showMessageDialog(panel, "Asegurate de introducir el DNI con el formato correcto (00000000A)");
+                        }
+                        if (num == -82){
+                            JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos de Fecha con el siguiente formato (YYYY/MM/DD) y que no sea posterior a hoy");
+                        }
+                        if (num == -83){
+                            JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos de un Telefono español valido");
+                        }
+                        if (num == -2){
+                            JOptionPane.showMessageDialog(panel, "Error clave foránea (no existe registro con ese ID)");
+                        }
+
                     }
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);

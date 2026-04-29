@@ -214,7 +214,7 @@ public class Sentencias extends Conexion {
                             return resultSet.getInt("ud");
                         }
                     } catch (SQLException t){
-                        System.out.println("Error devolver ultimo id");
+                        System.out.println("Error");
                     }
                 }
 
@@ -228,7 +228,7 @@ public class Sentencias extends Conexion {
                             return resultSet.getInt("ud");
                         }
                     } catch (SQLException t){
-                        System.out.println("Error devolver ultimo id");
+                        System.out.println("Error");
                     }
                 }
 
@@ -240,7 +240,10 @@ public class Sentencias extends Conexion {
                             return resultSet.getInt("ud");
                         }
                     } catch (SQLException t){
-                        System.out.println("Error devolver ultimo id");
+                        int codigo = t.getErrorCode();
+                        if (codigo == 1451 || codigo == 1452) {
+                            return  -2;
+                        }
                     }
                 }
 
@@ -292,6 +295,10 @@ public class Sentencias extends Conexion {
                     try (Connection con = Conexion.crearConexion()) {
                         if (!Regex.verificarNombreCompleto(lista.get(1))){
                             return -3;
+                        }
+
+                        if (!Regex.esImportePositivo(lista.get(2))){
+                            return -88;
                         }
 
 
@@ -435,7 +442,7 @@ public class Sentencias extends Conexion {
 
                 case 1:
 
-                    if (!Regex.esEntero(obj.get(2))){
+                    if (!Regex.esImportePositivo(obj.get(2))){
                         return -21;
                     }
 
@@ -460,7 +467,88 @@ public class Sentencias extends Conexion {
 
 
                 case 2:
+
+                    if (!Regex.verificarNombreCompleto(obj.get(1))){
+                        return -1;
+                    }
+
+                    if (!Regex.validarCorreo(obj.get(2))){
+                        return -80;
+                    }
+
+                    if (!Regex.validarFormatoDNI(obj.get(0))){
+                        return -81;
+                    }
+
+                    if (!Regex.validarFecha(obj.get(3))){
+                        return -82;
+                    }
+
+                    if (!Regex.validarTelefono(obj.get(4))){
+                        return -83;
+                    }
+
+                    try (Connection connection = Conexion.crearConexion()) {
+                        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE socio SET nombre_completo = ?, correo_electronico = ?, fecha_alta = ?, telefono = ?  where dni = ?");
+                        preparedStatement.setString(1, obj.get(1));
+                        preparedStatement.setString(2, obj.get(2));
+                        preparedStatement.setString(3, obj.get(3));
+                        preparedStatement.setString(4, obj.get(4));
+                        preparedStatement.setString(5, obj.get(0));
+                        int filas = preparedStatement.executeUpdate();
+
+                        if (filas > 0) {
+                            return 10;
+                        }
+
+
+                    } catch (SQLException e) {
+                        int codigo = e.getErrorCode();
+                        if (codigo == 1452) {
+                            return -6; // clave duplicada
+                        }
+                    }
+
+
+
+
+
+
+
                 case 3:
+                    if (!Regex.validarFormatoDNI(obj.get(1))){
+                        return -81;
+                    }
+
+                    if (!Regex.validarFecha(obj.get(2))){
+                        return -82;
+                    }
+
+                    if (!Regex.esImportePositivo(obj.get(3))){
+                        return -21;
+                    }
+
+
+
+                    try (Connection connection = Conexion.crearConexion()) {
+                        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE pago SET dni_socio = ?, fecha = ?, importe = ? where id = ?");
+                        preparedStatement.setString(1, obj.get(1));
+                        preparedStatement.setString(2, obj.get(2));
+                        preparedStatement.setString(3, obj.get(3));
+                        preparedStatement.setString(4, obj.get(0));
+                        int filas = preparedStatement.executeUpdate();
+
+                        if (filas > 0) {
+                            return 10;
+                        }
+
+
+                    } catch (SQLException e) {
+                        int codigo = e.getErrorCode();
+                        if (codigo == 1452) {
+                            return -6; // clave duplicada
+                        }
+                    }
 
 
 

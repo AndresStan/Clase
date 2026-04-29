@@ -2,6 +2,9 @@ package Controlador;
 
 import Vista.GestionUsuarios;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 
 public class Regex {
@@ -30,8 +33,23 @@ public class Regex {
 
 
     public static boolean validarFecha(String fecha) {
+        // 1. Validar el formato con tu regex
         String regex = "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$";
-        return fecha != null && fecha.matches(regex);
+        if (fecha == null || !fecha.matches(regex)) {
+            return false;
+        }
+
+        try {
+            // 2. Intentar parsear la fecha (esto detecta errores como 2023-02-30)
+            LocalDate fechaIngresada = LocalDate.parse(fecha, DateTimeFormatter.ISO_LOCAL_DATE);
+            LocalDate hoy = LocalDate.now();
+
+            // 3. Verificar que no sea posterior a hoy
+            return !fechaIngresada.isAfter(hoy);
+
+        } catch (DateTimeParseException e) {
+            return false;
+        }
     }
 
 

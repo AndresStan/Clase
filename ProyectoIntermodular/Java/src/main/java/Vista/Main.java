@@ -12,6 +12,7 @@ public class Main extends Controlador {
 
     public static void main(String[] args) throws SQLException {
 
+                // Empiezo creando el frame y el panel principal
 
                 JFrame frame = new JFrame("Gestor Gimnasio");
                 JPanel panel = new JPanel(new GridLayout(5, 1, 10, 20));
@@ -31,6 +32,8 @@ public class Main extends Controlador {
                 btnEntrar.setForeground(Color.WHITE);
                 btnEntrar.setFocusPainted(false);
 
+                // Si le das a entrar
+
                 btnEntrar.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -45,11 +48,10 @@ public class Main extends Controlador {
                     }
                 });
 
-                // 4. Añadir en orden
                 panel.add(titulo);
                 panel.add(txtDni);
                 panel.add(txtPass);
-                panel.add(new JLabel("")); // Espacio de separación
+                panel.add(new JLabel(""));
                 panel.add(btnEntrar);
 
                 frame.add(panel);
@@ -58,12 +60,12 @@ public class Main extends Controlador {
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(true);
 
-                /* bypass primera ventana */
+                /* bypass primera ventana
 
                 frame.dispose();
                 Gestor gestor = new Gestor("61091513V");
 
-
+*/
 
 
 
