@@ -1,0 +1,177 @@
+-- CONSULTAS CON OPERADORES DE CONJUNTO: UNION, INTERSECT, MINUS
+
+
+1. CodEmpDir de empleados que dirigen algún departamento con los que dirigen
+algún centro. Sin duplicados.
+select d.CodEmpDir from departamento d union  select c.CodEmpDir from centro c
+
+2. Igual que la anterior consulta pero con UNION ALL para ver también los duplicados
+(directivos de depto y centro a la vez).
+select d.CodEmpDir from departamento d union all select c.CodEmpDir from centro c
+
+3. CodDep y NomDep de departamentos con PreAnu > 20.000.000 y los
+departamentos con TiDir = 'F'. Sin duplicados.
+select CodDep, NomDep from departamento where PreAnu > 20000000 union select CodDep, NomDep
+from departamento where TiDir = 'F';
+
+4. Simula INTERSECT: empleados que dirigen un departamento y también dirigen un
+centro. Usa IN.
+select c.CodEmp, c.NomEmp from empleado c where c.CodEmp in (select CodEmpDir from departamento) 
+intersect
+select e.CodEmp, e.NomEmp from empleado e where e.CodEmp in (select CodEmpDir from centro)
+
+5. Simula EXCEPT: empleados que dirigen un departamento, pero NO un centro. Usa
+NOT IN y también LEFT JOIN … IS NULL.
+select d.CodEmpDir from departamento d
+except 
+select c.CodEmpDir from centro c
+
+
+6. DesHab de habilidades que tienen empleados de 'PROZS' y las que tienen
+empleados de 'VENZS'. Sin duplicados.
+select DesHab from habilidad where CodHab in (select CodHab from habemp where CodEmp in (select CodEmp from empleado where CodDep='PROZS'))
+union 
+select DesHab from habilidad where CodHab in (select CodHab from habemp where CodEmp in (select CodEmp from empleado where CodDep='VENZS'))
+
+7. Simula INTERSECT: habilidades que poseen empleados TANTO de 'PROZS' COMO de
+'VENZS'. Usa subconsulta con in
+select DesHab from habilidad where CodHab in (select CodHab from habemp where CodEmp in (select CodEmp from empleado where CodDep='PROZS'))
+intersect
+select DesHab from habilidad where CodHab in (select CodHab from habemp where CodEmp in (select CodEmp from empleado where CodDep='VENZS'))
+
+
+Manipulación de datos INSERT, UPDATE, DELETE
+1. Inserta un nuevo centro: CodCen='CENZ', NomCen='Centro Norte', DirCen='Calle
+Mayor 1', PobCen='Zaragoza'. CodEmpDir déjalo NULL.
+insert into centro (CodCen, NomCen, DirCen, PobCen) values ('CENZ', 'Centro Norte', 'Calle Mayor 1', 'Zaragoza')
+
+2. Inserta un nuevo departamento: CodDep='DEVZS', NomDep='Desarrollo Software',
+PreAnu=18000000, TiDir='F', CodCen='CENZ'. Sin director ni dependencia de otro
+departamento.
+insert into departamento (CodDep, NomDep, PreAnu, TiDir, CodCen) values ('DEVZS', 'Desarrollo Software',
+ 18000000, 'F', 'CENZ')
+
+ 
+3. Inserta un nuevo empleado: NomEmp='García López, Ana', FecNaEmp='1990-03-
+15', FecInEmp=fecha de hoy (CURDATE), SalEmp=3200000, NumHi=1,
+CodDep='DEVZS', ExTelEmp=NULL. CodEmp es AUTO_INCREMENT.
+insert into EMPLEADO (NomEmp, FecNaEmp, FecInEmp, SalEmp, NumHi, CodDep) values ('Garcia Lopez, Ana',
+'1990-03-15', curdate(), 3200000, 1, 'DEVZS')
+
+
+4. Inserta la habilidad CodHab='PROYE', DesHab='Gestión de Proyectos'. Después
+asígnala al empleado recién insertado con NivHab=3 en la tabla habemp.
+insert into habilidad (CodHab, DesHab) values ('PROYE', 'Gestion de Proyectos')
+insert into habemp () values ('PROYE', 11, 3)
+
+
+5. Crea la tabla emp_backup con la misma estructura que empleado (CREATE TABLE ...
+LIKE ...). Inserta en ella todos los empleados de 'PROZS' usando INSERT ... SELECT.
+
+create table emp_backup like empleado;
+insert into emp_backup () select CodEmp, CodDep, ExTelEmp, FecInEmp, FecNaEmp, NifEmp, NomEmp, NumHi, SalEmp from empleado
+	
+
+
+6. Inserta en la tabla hijo un hijo de la empleada recién creada: NumHij=1,
+NomHi='García Ruiz, Pablo', FecNaHi='2015-06-01'
+insert into hijo () values (11, 1, '2015-06-01', 'García Ruiz, Pablo')
+
+
+7. Inserta dos nuevos empleados en una sola sentencia INSERT multifila VALUES
+(...),(...). Ambos van al departamento 'DEVZS'.
+insert into EMPLEADO (NomEmp, FecNaEmp, FecInEmp, SalEmp, NumHi, CodDep) values ('Alexandro Stan, Andres',
+'1999-11-15', curdate(), 3200000, 1, 'DEVZS'), ('Pescaru Stan, Andres',
+'1929-11-15', curdate(), 3202000, 1, 'DEVZS')
+
+
+8. Incrementa un 5% el SalEmp de todos los empleados del departamento 'PROZS'.
+update empleado set SalEmp = SalEmp*1.05 where CodDep = 'PROZS'
+
+
+9. Reduce en 100.000 el SalEmp de todos los empleados sin hijos (NumHi = 0).
+update empleado set SalEmp = SalEmp-100000 where CodEmp in (select CodEmp from HIJO where NumHij = 0)
+
+
+10. Asigna como directora del departamento 'DEVZS' a la empleada recién insertada
+(busca su CodEmp con subconsulta por NomEmp).
+update departamento set CodEmpDir = (select CodEmp from empleado where NomEmp = 'Garcia Lopez, Ana')
+where CodDep = 'DEVZS'
+
+
+11. Incrementa un 10% el SalEmp de los empleados que ganan MENOS que la media de
+todos los empleados. Usa tabla derivada para evitar el error de MySQL al referenciar
+la misma tabla.
+UPDATE EMPLEADO  SET SalEmp = SalEmp * 1.10 WHERE SalEmp < (SELECT promedio FROM (SELECT AVG(SalEmp) AS promedio FROM EMPLEADO) AS subconsulta);
+
+12. Incrementa un 8% el PreAnu de los departamentos del centro 'FAZS' cuyo PreAnu
+actual sea inferior a 20.000.000.
+13. Establece ExTelEmp = '9999' para los empleados del departamento con mayor
+PreAnu. Usa subconsulta con MAX() y tabla derivada.
+14. Incrementa un 3% el SalEmp de los empleados que trabajan en el mismo
+departamento que algún empleado con NumHi > 1. Usa IN con tabla derivada.
+15. Actualiza NumHi de cada empleado con el recuento real de filas en tabla hijo para
+ese CodEmp. Usa JOIN en el UPDATE. Después pon a 0 los empleados sin filas en
+hijo.
+16. Elimina de habemp todos los registros con CodHab = 'PROYE'.
+17. Elimina la habilidad 'PROYE' de la tabla habilidad.
+18. Borra de tabla hijo los registros cuyo CodEmp no existe en tabla empleado. Usa NOT
+IN o NOT EXISTS.
+19. Elimina todos los empleados del departamento 'DEVZS'. Primero borra sus filas
+dependientes en habemp e hijo (en orden correcto por las FK).
+20. Borra de habemp los registros de empleados que cobran menos que la media de su
+departamento. Usa subconsulta correlacionada con tabla derivada.
+21. Elimina el departamento 'DEVZS' y el centro 'CENZ'. Respeta el orden para no violar
+las claves foráneas.
+VISTAS
+1. Crea v_empleados_sobre_media: NomEmp, SalEmp y CodDep de empleados que
+cobran más que la media global de SalEmp.
+2. Crea v_dep_sin_empleados: CodDep y NomDep de departamentos sin empleados.
+Usa NOT EXISTS.
+3. Crea v_centros_presupuesto: CodCen, NomCen y suma de PreAnu de sus
+departamentos. Usa GROUP BY dentro de la vista.
+4. Crea v_directorio: NomEmp, NomDep, NomCen, SalEmp, NumHi. JOIN de empleado
++ departamento + centro.
+5. Crea v_emp_habilidades: NomEmp, DesHab y NivHab. Solo empleados que tienen
+al menos una habilidad. JOIN empleado + habemp + habilidad.
+6. Crea v_resumen_dep: NomDep, NomCen, NomEmp (director), número de
+empleados, SalEmp mínimo y máximo. Usa GROUP BY y JOINs.
+7. Crea v_emp_hijos: NomEmp, NomHi y FecNaHi para todos los empleados (incluidos
+sin hijos). Usa LEFT JOIN.
+8. Crea v_top_sal_centro: por cada centro, NomCen y NomEmp del empleado mejor
+pagado. Usa subconsulta correlacionada.
+9. Crea v_habilidades_populares: DesHab y número de empleados que la tienen (≥ 2).
+GROUP BY + HAVING en la vista.
+ÍNDICES Y COMANDO EXPLAIN
+1. Crea idx_sal sobre SalEmp en tabla empleado. Ejecuta EXPLAIN para la consulta:
+SELECT * FROM empleado WHERE SalEmp > 3000000. Analiza los campos type, key
+y rows.
+2. Crea un índice compuesto idx_dep_sal sobre (CodDep, SalEmp) en empleado.
+Explica cuándo se usará (regla del prefijo izquierdo) y cuándo no.
+3. Crea idx_fecinc sobre FecInEmp en empleado. Verifica con EXPLAIN que la consulta
+WHERE FecInEmp > '2000-01-01' lo usa. Compara con WHERE YEAR(FecInEmp) >
+2000 (¿usa el índice?).
+TRANSACCIONES
+1. Desactiva el autocommit (SET autocommit=0). Inserta un empleado de prueba.
+Verifica con SELECT que aparece en tu sesión. Haz ROLLBACK y comprueba que
+desaparece.
+2. START TRANSACTION. Incrementa un 10% el SalEmp de todos los empleados de
+'PROZS'. Verifica el cambio. Haz ROLLBACK. Comprueba que los salarios vuelven a
+su valor original.
+3. START TRANSACTION. Inserta un departamento 'TESTZ' en centro 'FAZS'. Asigna a
+ese departamento el empleado CodEmp=7 (UPDATE). Haz COMMIT. Verifica el
+resultado.
+4. START TRANSACTION. Borra de habemp las habilidades del empleado CodEmp=7.
+Borra el empleado CodEmp=7. Haz COMMIT. En una segunda transacción, vuelve a
+insertar al empleado y sus habilidades originales. COMMIT.
+5. START TRANSACTION. Inserta un departamento (SAVEPOINT sp1). Inserta un
+empleado en ese depto (SAVEPOINT sp2). Ejecuta ROLLBACK TO sp1. Verifica que el
+empleado desaparece pero el departamento sigue. Haz ROLLBACK final.
+6. START TRANSACTION. Actualiza SalEmp de empleados de 'VENZS' (SAVEPOINT
+sp_ventas). Actualiza PreAnu del departamento 'VENZS' (SAVEPOINT sp_dep).
+ROLLBACK TO sp_ventas. Comprueba qué cambios se mantienen y cuáles se
+revierten.
+7. Diseña una transacción que simule el traslado de un empleado entre
+departamentos: (1) actualiza CodDep, SAVEPOINT sp1; (2) comprueba con SELECT
+que el depto destino existe; (3) si no existe, ROLLBACK TO sp1. Usa una variable de
+sesión (@existe) para simular la comprobación.
