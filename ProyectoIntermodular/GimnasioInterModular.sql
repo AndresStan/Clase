@@ -36,7 +36,7 @@ CREATE TABLE Entrenador (
     nombre_completo VARCHAR(100) NOT NULL,
     codigoSala int(20),
     CONSTRAINT pk_entrenador PRIMARY KEY (id),
-    CONSTRAINT fk_entrenador_sala FOREIGN KEY (codigoSala) REFERENCES Sala (id)
+    CONSTRAINT fk_entrenador_sala FOREIGN KEY (codigoSala) REFERENCES Sala (id) ON DELETE SET NULL
 );
 
 -- Creamos la Tabla Pago

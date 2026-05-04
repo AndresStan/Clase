@@ -3,6 +3,8 @@ package Modelo;
 import java.time.LocalDate;
 
 public class Socio {
+
+    private int id;
     private String dni;
     private String NombreCompleto;
     private String correoElectronico;
@@ -12,12 +14,21 @@ public class Socio {
     public Socio() {
     }
 
-    public Socio(String dni, String nombreCompleto, String correoElectronico, LocalDate fechaAlta, String telefono) {
+    public Socio(int id ,String dni, String nombreCompleto, String correoElectronico, LocalDate fechaAlta, String telefono) {
+        this.id = id;
         this.dni = dni;
         NombreCompleto = nombreCompleto;
         this.correoElectronico = correoElectronico;
         this.fechaAlta = fechaAlta;
         this.telefono = telefono;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getDni() {

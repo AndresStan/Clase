@@ -65,10 +65,10 @@ public class Sentencias extends Conexion {
             Statement statement = connection.createStatement();
 
             DefaultListModel<Socio> lista = new DefaultListModel<>();
-            ResultSet resultSet = statement.executeQuery("SELECT u.dni, u.nombre_completo, u.correo_electronico, u.fecha_alta, u.telefono FROM socio u ORDER BY nombre_completo ASC");
+            ResultSet resultSet = statement.executeQuery("SELECT u.id ,u.dni, u.nombre_completo, u.correo_electronico, u.fecha_alta, u.telefono FROM socio u ORDER BY u.id ASC");
             ArrayList<Socio> list = new ArrayList<>();
             while (resultSet.next()){
-                list.add(new Socio(resultSet.getString("u.dni"), resultSet.getString("u.nombre_completo"), resultSet.getString("u.correo_electronico"), resultSet.getDate("u.fecha_alta").toLocalDate(), resultSet.getString("u.telefono")));
+                list.add(new Socio(resultSet.getInt("u.id"), resultSet.getString("u.dni"), resultSet.getString("u.nombre_completo"), resultSet.getString("u.correo_electronico"), resultSet.getDate("u.fecha_alta").toLocalDate(), resultSet.getString("u.telefono")));
             }
 
             for (Modelo.Socio u : list) {
@@ -164,7 +164,7 @@ public class Sentencias extends Conexion {
 
                 case 2: {
                     try (Connection con = Conexion.crearConexion()) {
-                        PreparedStatement preparedStatement = connection.prepareStatement("Delete from socio where DNI = ?");
+                        PreparedStatement preparedStatement = connection.prepareStatement("Delete from socio where id = ?");
                         preparedStatement.setString(1, lista.getFirst());
                         int r = preparedStatement.executeUpdate();
                         return r>0;
@@ -202,7 +202,7 @@ public class Sentencias extends Conexion {
 
 
 
-    public static int DevolverUltimoIDMas1(int pestaña){
+    public static int DevolverUltimoID(int pestaña){
         try (Connection connection = Conexion.crearConexion()) {
 
             switch (pestaña){
@@ -224,6 +224,18 @@ public class Sentencias extends Conexion {
                     try (Connection con = Conexion.crearConexion()) {
                         Statement statement = connection.createStatement();
                         ResultSet resultSet = statement.executeQuery("SELECT MAX(id) as ud FROM sala");
+                        while (resultSet.next()){
+                            return resultSet.getInt("ud");
+                        }
+                    } catch (SQLException t){
+                        System.out.println("Error");
+                    }
+                }
+
+                case 2: {
+                    try (Connection con = Conexion.crearConexion()) {
+                        Statement statement = connection.createStatement();
+                        ResultSet resultSet = statement.executeQuery("SELECT MAX(id) as ud FROM socio");
                         while (resultSet.next()){
                             return resultSet.getInt("ud");
                         }
@@ -274,7 +286,7 @@ public class Sentencias extends Conexion {
                        }
 
                        PreparedStatement preparedStatement = connection.prepareStatement("insert into entrenador (id, nombre_completo, codigoSala) values (?, ?, ?)");
-                       preparedStatement.setString(1, String.valueOf(DevolverUltimoIDMas1(pestaña)+1));
+                       preparedStatement.setString(1, String.valueOf(DevolverUltimoID(pestaña)+1));
                        preparedStatement.setString(2, lista.get(1));
                        preparedStatement.setString(3, lista.get(2));
                        int res = preparedStatement.executeUpdate();
@@ -303,7 +315,7 @@ public class Sentencias extends Conexion {
 
 
                         PreparedStatement preparedStatement = connection.prepareStatement("insert into sala (id, nombre, capacidad) values (?, ?, ?)");
-                        preparedStatement.setString(1, String.valueOf(DevolverUltimoIDMas1(pestaña)+1));
+                        preparedStatement.setString(1, String.valueOf(DevolverUltimoID(pestaña)+1));
                         preparedStatement.setString(2, lista.get(1));
                         preparedStatement.setString(3, lista.get(2));
                         int res = preparedStatement.executeUpdate();
@@ -320,24 +332,24 @@ public class Sentencias extends Conexion {
 
                 case 2: {
                     try (Connection con = Conexion.crearConexion()) {
-                        if (!Regex.verificarNombreCompleto(lista.get(1))){
+                        if (!Regex.verificarNombreCompleto(lista.get(2))){
                             return -3;
                         }
 
-                        if (!Regex.validarFormatoDNI(lista.get(0))){
+                        if (!Regex.validarFormatoDNI(lista.get(1))){
                             return -4;
                         }
 
 
-                        if (!Regex.validarCorreo(lista.get(2))){
+                        if (!Regex.validarCorreo(lista.get(3))){
                             return -5;
                         }
 
-                        if (!Regex.validarFecha(lista.get(3))){
+                        if (!Regex.validarFecha(lista.get(4))){
                             return -6;
                         }
 
-                        if (!Regex.validarTelefono(lista.get(4))){
+                        if (!Regex.validarTelefono(lista.get(5))){
                             return -7;
                         }
 
@@ -345,12 +357,13 @@ public class Sentencias extends Conexion {
 
 
 
-                        PreparedStatement preparedStatement = connection.prepareStatement("insert into socio (dni, nombre_completo, correo_electronico, fecha_alta, telefono) values (?, ?, ?, ?, ?)");
-                        preparedStatement.setString(1, lista.get(0));
+                        PreparedStatement preparedStatement = connection.prepareStatement("insert into socio (id, dni, nombre_completo, correo_electronico, fecha_alta, telefono) values (?, ?, ?, ?, ?, ?)");
+                        preparedStatement.setString(1, String.valueOf(DevolverUltimoID(pestaña)+1));
                         preparedStatement.setString(2, lista.get(1));
                         preparedStatement.setString(3, lista.get(2));
                         preparedStatement.setString(4, lista.get(3));
                         preparedStatement.setString(5, lista.get(4));
+                        preparedStatement.setString(6, lista.get(5));
                         int res = preparedStatement.executeUpdate();
                         return 1;
                     } catch (SQLException e) {
@@ -379,7 +392,7 @@ public class Sentencias extends Conexion {
 
 
                         PreparedStatement preparedStatement = connection.prepareStatement("insert into pago (id, dni_socio, fecha, importe) values (?, ?, ?, ?)");
-                        preparedStatement.setString(1, String.valueOf(DevolverUltimoIDMas1(pestaña)+1));
+                        preparedStatement.setString(1, String.valueOf(DevolverUltimoID(pestaña)+1));
                         preparedStatement.setString(2, lista.get(1));
                         preparedStatement.setString(3, lista.get(2));
                         preparedStatement.setString(4, lista.get(3));
@@ -468,33 +481,34 @@ public class Sentencias extends Conexion {
 
                 case 2:
 
-                    if (!Regex.verificarNombreCompleto(obj.get(1))){
+                    if (!Regex.verificarNombreCompleto(obj.get(2))){
                         return -1;
                     }
 
-                    if (!Regex.validarCorreo(obj.get(2))){
+                    if (!Regex.validarCorreo(obj.get(3))){
                         return -80;
                     }
 
-                    if (!Regex.validarFormatoDNI(obj.get(0))){
+                    if (!Regex.validarFormatoDNI(obj.get(1))){
                         return -81;
                     }
 
-                    if (!Regex.validarFecha(obj.get(3))){
+                    if (!Regex.validarFecha(obj.get(4))){
                         return -82;
                     }
 
-                    if (!Regex.validarTelefono(obj.get(4))){
+                    if (!Regex.validarTelefono(obj.get(5))){
                         return -83;
                     }
 
                     try (Connection connection = Conexion.crearConexion()) {
-                        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE socio SET nombre_completo = ?, correo_electronico = ?, fecha_alta = ?, telefono = ?  where dni = ?");
+                        PreparedStatement preparedStatement = connection.prepareStatement("UPDATE socio SET DNI = ?, nombre_completo = ?, correo_electronico = ?, fecha_alta = ?, telefono = ?  where ID = ?");
                         preparedStatement.setString(1, obj.get(1));
                         preparedStatement.setString(2, obj.get(2));
                         preparedStatement.setString(3, obj.get(3));
                         preparedStatement.setString(4, obj.get(4));
-                        preparedStatement.setString(5, obj.get(0));
+                        preparedStatement.setString(5, obj.get(5));
+                        preparedStatement.setString(6, obj.get(0));
                         int filas = preparedStatement.executeUpdate();
 
                         if (filas > 0) {

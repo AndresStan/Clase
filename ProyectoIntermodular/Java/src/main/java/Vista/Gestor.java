@@ -26,6 +26,7 @@ public class Gestor extends JFrame {
     Sentencias s = new Sentencias();
     Main main = new Main();
 
+
     // Modelos para las 4 tablas
     private DefaultTableModel modeloEntrenador;
     private DefaultTableModel modeloSala;
@@ -67,8 +68,6 @@ public class Gestor extends JFrame {
         // Panel para agrupar los botones de la derecha
         JPanel panelBotonesTop = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
 
-        JButton btnRefrescar = new JButton("Refrescar");
-        panelBotonesTop.add(btnRefrescar);
 
         JButton btnCerrarSesion = new JButton("Cerrar Sesion");
         btnCerrarSesion.setBackground(new java.awt.Color(255, 204, 204)); // Un tono rojizo suave
@@ -87,7 +86,7 @@ public class Gestor extends JFrame {
 
         modeloEntrenador = new DefaultTableModel(null, new String[]{"ID", "Nombre Completo", "Código Sala"});
         modeloSala = new DefaultTableModel(null, new String[]{"ID", "Nombre", "Capacidad"});
-        modeloSocio = new DefaultTableModel(null, new String[]{"DNI", "Nombre Completo", "Correo Electrónico", "Fecha Alta", "Teléfono"});
+        modeloSocio = new DefaultTableModel(null, new String[]{"ID", "DNI", "Nombre Completo", "Correo Electrónico", "Fecha Alta", "Teléfono"});
         modeloPago = new DefaultTableModel(null, new String[]{"ID", "DNI Socio", "Fecha", "Importe"});
 
         pestanas.addTab("Entrenador", crearPanel("Entrenador", modeloEntrenador));
@@ -102,9 +101,9 @@ public class Gestor extends JFrame {
         // --- CARGA INICIAL DE DATOS ---
         cargarDatos();
 
-        // --- EVENTOS ---
-        btnRefrescar.addActionListener(e -> cargarDatos());
-        btnRefrescar.addActionListener(e -> System.out.println(pestanas.getSelectedIndex()));
+
+
+
 
         btnAddUser.addActionListener(new ActionListener() {
             @Override
@@ -163,10 +162,11 @@ public class Gestor extends JFrame {
 
         // Socios
         DefaultListModel<Modelo.Socio> listaSocio = s.mostrarSocios();
+
         for (int i = 0; i < listaSocio.size(); i++) {
             Modelo.Socio socio = listaSocio.get(i);
-
             modeloSocio.addRow(new Object[]{
+                    socio.getId(),
                     socio.getDni(),
                     socio.getNombreCompleto(),
                     socio.getCorreoElectronico(),
@@ -210,7 +210,6 @@ public class Gestor extends JFrame {
     private JPanel crearPanel(String nombreTabla, DefaultTableModel modeloTabla) {
 
 
-
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -224,6 +223,7 @@ public class Gestor extends JFrame {
                 return false; // Bloquea la edición a nivel de UI, sin importar el modelo
             }
         };
+
 
         tabla.setRowSorter(sorter);
 
@@ -252,13 +252,27 @@ public class Gestor extends JFrame {
 
 
         panel.add(panelBusqueda, BorderLayout.NORTH); // <--- AÑADIR BUSCADOR ARRIBA
-        panel.add(new JScrollPane(tabla), BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(tabla);
+        panel.add(scrollPane, BorderLayout.CENTER);
+
+
 
         JPanel panelInferior = new JPanel(new BorderLayout(0, 15));
         int numColumnas = modeloTabla.getColumnCount();
         JPanel panelFormulario = new JPanel(new GridLayout(2, numColumnas, 5, 5));
         JTextField[] camposTexto = new JTextField[numColumnas];
 
+        // Sustituye 'miScrollPane' y 'miTabla' por los nombres de tus variables
+        scrollPane.getViewport().addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent e) {
+                tabla.clearSelection();
+                for(int i = 0; i < numColumnas; i++) {
+                    camposTexto[i].setText("");
+                    camposTexto[0].setEditable(false);
+                }
+            }
+        });
         for (int i = 0; i < numColumnas; i++) {
             panelFormulario.add(new JLabel(modeloTabla.getColumnName(i)));
         }
@@ -272,12 +286,8 @@ public class Gestor extends JFrame {
             @Override
             public void stateChanged(javax.swing.event.ChangeEvent e) {
                 camposTexto[0].setEditable(false);
-                if (pestanas.getSelectedIndex() == 2){
-                    camposTexto[0].setEditable(true);
-                    camposTexto[0].setBackground(new java.awt.Color(255, 255, 255));
-                } else {
-                    camposTexto[0].setBackground(new java.awt.Color(240, 240, 240));
-                }
+                camposTexto[0].setBackground(new java.awt.Color(255, 255, 255));
+
 
             }
         });
@@ -325,6 +335,7 @@ public class Gestor extends JFrame {
         panelBotones.add(btnInsertar);
         panelBotones.add(btnModificar);
         panelBotones.add(btnEliminar);
+
 
         panelInferior.add(panelFormulario, BorderLayout.CENTER);
         panelInferior.add(panelBotones, BorderLayout.SOUTH);
