@@ -449,4 +449,41 @@ public class Sentencias extends Conexion {
             }
             return 1;
         }
+
+
+    public static boolean salaTieneEntrenadores(int idSala) {
+        String sql = "SELECT COUNT(*) FROM entrenador WHERE codigoSala = ?";
+        try (Connection con = Conexion.crearConexion();
+             PreparedStatement pst = con.prepareStatement(sql)) {
+
+            pst.setInt(1, idSala);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Retorna true si hay 1 o más
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public static boolean socioTienePagos(String dni_socio) {
+        String sql = "SELECT COUNT(*) FROM pago WHERE dni_socio = ?";
+        try (Connection con = Conexion.crearConexion();
+             PreparedStatement pst = con.prepareStatement(sql)) {
+
+            pst.setString(1, dni_socio);
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Retorna true si hay 1 o más
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 }

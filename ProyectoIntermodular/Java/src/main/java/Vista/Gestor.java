@@ -374,6 +374,44 @@ public class Gestor extends JFrame {
                     return;
                 }
 
+                // si tiene clave ajena que es la pestaña 1 entonces doy la confirmacion de que existe un entrenador asignado a esa sala
+                // si no tiene prosigo normalmente
+
+                if (pestanas.getSelectedIndex() == 1){
+                    if (Sentencias.salaTieneEntrenadores(Integer.parseInt(lista.get(0)))){
+                        int respuesta2 = JOptionPane.showConfirmDialog(
+                                null,
+                                "Hay uno o varios entrenadores asignados a esta sala, ¿Desea proceder con la eliminacion?",
+                                "Confirmación",
+                                JOptionPane.YES_NO_OPTION
+                        );
+
+                        // si no esta seguro se cancela
+                        if (respuesta2 != JOptionPane.YES_OPTION) {
+                            return;
+                        }
+
+                    }
+                }
+
+                if (pestanas.getSelectedIndex() == 2){
+                    if (Sentencias.socioTienePagos((lista.get(1)))){
+                        int respuesta2 = JOptionPane.showConfirmDialog(
+                                null,
+                                "El socio seleccionado tiene pagos registrados ¿Desea proceder con la eliminacion?",
+                                "Confirmación",
+                                JOptionPane.YES_NO_OPTION
+                        );
+
+                        // si no esta seguro se cancela
+                        if (respuesta2 != JOptionPane.YES_OPTION) {
+                            return;
+                        }
+
+                    }
+                }
+
+
                 // si está seguro procede a la eliminacion
                 try {
                     Sentencias.EliminarObjeto(lista, pestanas.getSelectedIndex());
