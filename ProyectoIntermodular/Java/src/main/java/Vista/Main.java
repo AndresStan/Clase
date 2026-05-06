@@ -46,6 +46,7 @@ public class Main extends Controlador {
                             Gestor gestor = new Gestor(dni);
                         }
                     }
+
                 });
 
                 panel.add(titulo);

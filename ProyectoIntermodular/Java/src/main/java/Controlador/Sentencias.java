@@ -1,61 +1,42 @@
 package Controlador;
-
 import Modelo.*;
-import Vista.Gestor;
-
 import javax.swing.*;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Sentencias extends Conexion {
-
-
 
     public static boolean validarUsuario(String dni, String password) {
         String sql = "SELECT dni FROM logged WHERE dni = ? AND contraseña = ?";
 
         try (Connection con = Conexion.crearConexion();
              PreparedStatement pstmt = con.prepareStatement(sql)) {
-
             pstmt.setString(1, dni);
             pstmt.setString(2, password);
-
             ResultSet rs = pstmt.executeQuery();
-
             return rs.next();
-
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
 
-
     public DefaultListModel<Entrenador> mostrarEntrenadores(){
         try (Connection connection = Conexion.crearConexion()) {
             Statement statement = connection.createStatement();
-
             DefaultListModel<Entrenador> lista = new DefaultListModel<>();
             ResultSet resultSet = statement.executeQuery("SELECT u.id, u.nombre_completo, u.codigoSala FROM entrenador u ORDER BY id ASC");
             ArrayList<Entrenador> list = new ArrayList<>();
             while (resultSet.next()){
                 list.add(new Entrenador(resultSet.getInt("u.id"), resultSet.getString("u.nombre_completo"), resultSet.getString("u.codigoSala")));
             }
-
             for (Modelo.Entrenador u : list) {
                 lista.addElement(u);
             }
-
-
             return lista;
-
         } catch (SQLException e) {
-
             e.printStackTrace();
         }
-
         return new DefaultListModel<>();
     }
 
@@ -63,25 +44,19 @@ public class Sentencias extends Conexion {
     public DefaultListModel<Socio> mostrarSocios(){
         try (Connection connection = Conexion.crearConexion()) {
             Statement statement = connection.createStatement();
-
             DefaultListModel<Socio> lista = new DefaultListModel<>();
             ResultSet resultSet = statement.executeQuery("SELECT u.id ,u.dni, u.nombre_completo, u.correo_electronico, u.fecha_alta, u.telefono FROM socio u ORDER BY u.id ASC");
             ArrayList<Socio> list = new ArrayList<>();
             while (resultSet.next()){
                 list.add(new Socio(resultSet.getInt("u.id"), resultSet.getString("u.dni"), resultSet.getString("u.nombre_completo"), resultSet.getString("u.correo_electronico"), resultSet.getDate("u.fecha_alta").toLocalDate(), resultSet.getString("u.telefono")));
             }
-
             for (Modelo.Socio u : list) {
                 lista.addElement(u);
             }
-
             return lista;
-
         } catch (SQLException e) {
-
             e.printStackTrace();
         }
-
         return new DefaultListModel<>();
     }
 
@@ -95,49 +70,39 @@ public class Sentencias extends Conexion {
             while (resultSet.next()){
                 list.add(new Pago(resultSet.getInt("u.id"), resultSet.getString("u.dni_socio"), resultSet.getDate("u.fecha").toLocalDate(), resultSet.getDouble("u.importe")));
             }
-
             for (Modelo.Pago u : list) {
                 lista.addElement(u);
             }
-
             return lista;
-
         } catch (SQLException e) {
-
             e.printStackTrace();
         }
-
         return new DefaultListModel<>();
     }
 
     public DefaultListModel<Sala> mostrarSalas(){
         try (Connection connection = Conexion.crearConexion()) {
             Statement statement = connection.createStatement();
-
             DefaultListModel<Sala> lista = new DefaultListModel<>();
             ResultSet resultSet = statement.executeQuery("SELECT u.id, u.nombre, u.capacidad from sala u ORDER BY u.id ASC");
             ArrayList<Sala> list = new ArrayList<>();
             while (resultSet.next()){
                 list.add(new Sala(resultSet.getInt("u.id"), resultSet.getString("u.nombre"), resultSet.getInt("u.capacidad")));
             }
-
             for (Modelo.Sala u : list) {
                 lista.addElement(u);
             }
-
             return lista;
 
         } catch (SQLException e) {
 
             e.printStackTrace();
         }
-
         return new DefaultListModel<>();
     }
 
     public static boolean EliminarObjeto(ArrayList<String> lista, int pestaña ){
         try (Connection connection = Conexion.crearConexion()) {
-
             switch (pestaña){
                 case 0: {
                     try (Connection con = Conexion.crearConexion()) {
@@ -149,7 +114,6 @@ public class Sentencias extends Conexion {
                         return false;
                     }
                 }
-
                 case 1: {
                     try (Connection con = Conexion.crearConexion()) {
                         PreparedStatement preparedStatement = connection.prepareStatement("Delete from sala where id = ?");
@@ -161,7 +125,6 @@ public class Sentencias extends Conexion {
                     }
                     return false;
                 }
-
                 case 2: {
                     try (Connection con = Conexion.crearConexion()) {
                         PreparedStatement preparedStatement = connection.prepareStatement("Delete from socio where id = ?");
@@ -173,7 +136,6 @@ public class Sentencias extends Conexion {
                     }
                     return false;
                 }
-
                 case 3: {
                     try (Connection con = Conexion.crearConexion()) {
                         PreparedStatement preparedStatement = connection.prepareStatement("Delete from pago where id = ?");
@@ -185,7 +147,6 @@ public class Sentencias extends Conexion {
                     }
                     return false;
                 }
-
             }
 
 
@@ -204,7 +165,6 @@ public class Sentencias extends Conexion {
 
     public static int DevolverUltimoID(int pestaña){
         try (Connection connection = Conexion.crearConexion()) {
-
             switch (pestaña){
                 case 0: {
                     try (Connection con = Conexion.crearConexion()) {
@@ -217,9 +177,6 @@ public class Sentencias extends Conexion {
                         System.out.println("Error");
                     }
                 }
-
-
-
                 case 1: {
                     try (Connection con = Conexion.crearConexion()) {
                         Statement statement = connection.createStatement();
@@ -231,7 +188,6 @@ public class Sentencias extends Conexion {
                         System.out.println("Error");
                     }
                 }
-
                 case 2: {
                     try (Connection con = Conexion.crearConexion()) {
                         Statement statement = connection.createStatement();
@@ -243,7 +199,6 @@ public class Sentencias extends Conexion {
                         System.out.println("Error");
                     }
                 }
-
                 case 3: {
                     try (Connection con = Conexion.crearConexion()) {
                         Statement statement = connection.createStatement();
@@ -258,17 +213,10 @@ public class Sentencias extends Conexion {
                         }
                     }
                 }
-
-
             }
-
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
         return pestaña;
     }
 
@@ -277,14 +225,12 @@ public class Sentencias extends Conexion {
 
     public static int InsertarObjeto(ArrayList<String> lista, int pestaña ){
         try (Connection connection = Conexion.crearConexion()) {
-
             switch (pestaña){
                 case 0: {
                    try (Connection con = Conexion.crearConexion()) {
                        if (!Regex.verificarNombreCompleto(lista.get(1))){
                            return -3;
                        }
-
                        PreparedStatement preparedStatement = connection.prepareStatement("insert into entrenador (id, nombre_completo, codigoSala) values (?, ?, ?)");
                        preparedStatement.setString(1, String.valueOf(DevolverUltimoID(pestaña)+1));
                        preparedStatement.setString(2, lista.get(1));
@@ -308,12 +254,9 @@ public class Sentencias extends Conexion {
                         if (!Regex.verificarNombreCompleto(lista.get(1))){
                             return -3;
                         }
-
                         if (!Regex.esImportePositivo(lista.get(2))){
                             return -88;
                         }
-
-
                         PreparedStatement preparedStatement = connection.prepareStatement("insert into sala (id, nombre, capacidad) values (?, ?, ?)");
                         preparedStatement.setString(1, String.valueOf(DevolverUltimoID(pestaña)+1));
                         preparedStatement.setString(2, lista.get(1));
@@ -329,34 +272,23 @@ public class Sentencias extends Conexion {
                         }
                     }
                 }
-
                 case 2: {
                     try (Connection con = Conexion.crearConexion()) {
                         if (!Regex.verificarNombreCompleto(lista.get(2))){
                             return -3;
                         }
-
                         if (!Regex.validarFormatoDNI(lista.get(1))){
                             return -4;
                         }
-
-
                         if (!Regex.validarCorreo(lista.get(3))){
                             return -5;
                         }
-
                         if (!Regex.validarFecha(lista.get(4))){
                             return -6;
                         }
-
                         if (!Regex.validarTelefono(lista.get(5))){
                             return -7;
                         }
-
-
-
-
-
                         PreparedStatement preparedStatement = connection.prepareStatement("insert into socio (id, dni, nombre_completo, correo_electronico, fecha_alta, telefono) values (?, ?, ?, ?, ?, ?)");
                         preparedStatement.setString(1, String.valueOf(DevolverUltimoID(pestaña)+1));
                         preparedStatement.setString(2, lista.get(1));
@@ -375,7 +307,6 @@ public class Sentencias extends Conexion {
                         }
                     }
                 }
-
                 case 3: {
                     try (Connection con = Conexion.crearConexion()) {
 
@@ -388,9 +319,6 @@ public class Sentencias extends Conexion {
                         if (!Regex.esImportePositivo(lista.get(3))){
                             return -88;
                         }
-
-
-
                         PreparedStatement preparedStatement = connection.prepareStatement("insert into pago (id, dni_socio, fecha, importe) values (?, ?, ?, ?)");
                         preparedStatement.setString(1, String.valueOf(DevolverUltimoID(pestaña)+1));
                         preparedStatement.setString(2, lista.get(1));
@@ -408,18 +336,12 @@ public class Sentencias extends Conexion {
                         } else {
                             return -67; // error desconocido
                         }
-
                     }
                 }
-
             }
-
-
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return -3;
     }
 
@@ -427,11 +349,9 @@ public class Sentencias extends Conexion {
         public static int modificarObjeto(ArrayList<String> obj, int pestaña) throws SQLException {
             switch (pestaña){
                 case 0:
-
                     if (!Regex.verificarNombreCompleto(obj.get(1))){
                         return -1;
                     }
-
                     try (Connection connection = Conexion.crearConexion()) {
                         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE ENTRENADOR SET nombre_completo = ?, codigoSala = ? where id = ?");
                         preparedStatement.setString(1, obj.get(1));
@@ -442,27 +362,19 @@ public class Sentencias extends Conexion {
                         if (filas > 0) {
                             return 10;
                         }
-
-
                     } catch (SQLException e) {
                         int codigo = e.getErrorCode();
                         if (codigo == 1452) {
                             return -6; // clave duplicada
                         }
                     }
-
-
-
                 case 1:
-
                     if (!Regex.esImportePositivo(obj.get(2))){
                         return -21;
                     }
-
                     if (!Regex.verificarNombreCompleto(obj.get(1))){
                         return -1;
                     }
-
                     try (Connection connection = Conexion.crearConexion()) {
                         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE sala SET nombre = ?, capacidad = ? where id = ?");
                         preparedStatement.setString(1, obj.get(1));
@@ -472,35 +384,24 @@ public class Sentencias extends Conexion {
                         if (filas > 0) {
                             return 10;
                         }
-
-
                     } catch (SQLException e) {
-
                     }
-
-
                 case 2:
-
                     if (!Regex.verificarNombreCompleto(obj.get(2))){
                         return -1;
                     }
-
                     if (!Regex.validarCorreo(obj.get(3))){
                         return -80;
                     }
-
                     if (!Regex.validarFormatoDNI(obj.get(1))){
                         return -81;
                     }
-
                     if (!Regex.validarFecha(obj.get(4))){
                         return -82;
                     }
-
                     if (!Regex.validarTelefono(obj.get(5))){
                         return -83;
                     }
-
                     try (Connection connection = Conexion.crearConexion()) {
                         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE socio SET DNI = ?, nombre_completo = ?, correo_electronico = ?, fecha_alta = ?, telefono = ?  where ID = ?");
                         preparedStatement.setString(1, obj.get(1));
@@ -510,40 +411,25 @@ public class Sentencias extends Conexion {
                         preparedStatement.setString(5, obj.get(5));
                         preparedStatement.setString(6, obj.get(0));
                         int filas = preparedStatement.executeUpdate();
-
                         if (filas > 0) {
                             return 10;
                         }
-
-
                     } catch (SQLException e) {
                         int codigo = e.getErrorCode();
                         if (codigo == 1452) {
                             return -6; // clave duplicada
                         }
                     }
-
-
-
-
-
-
-
                 case 3:
                     if (!Regex.validarFormatoDNI(obj.get(1))){
                         return -81;
                     }
-
                     if (!Regex.validarFecha(obj.get(2))){
                         return -82;
                     }
-
                     if (!Regex.esImportePositivo(obj.get(3))){
                         return -21;
                     }
-
-
-
                     try (Connection connection = Conexion.crearConexion()) {
                         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE pago SET dni_socio = ?, fecha = ?, importe = ? where id = ?");
                         preparedStatement.setString(1, obj.get(1));
@@ -551,25 +437,16 @@ public class Sentencias extends Conexion {
                         preparedStatement.setString(3, obj.get(3));
                         preparedStatement.setString(4, obj.get(0));
                         int filas = preparedStatement.executeUpdate();
-
                         if (filas > 0) {
                             return 10;
                         }
-
-
                     } catch (SQLException e) {
                         int codigo = e.getErrorCode();
                         if (codigo == 1452) {
                             return -6; // clave duplicada
                         }
                     }
-
-
-
             }
             return 1;
         }
-
-
-
 }
