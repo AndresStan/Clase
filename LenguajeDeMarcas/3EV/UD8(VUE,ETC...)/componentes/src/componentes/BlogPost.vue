@@ -1,4 +1,6 @@
 <script setup>
+import BotonContador from './BotonContador.vue';
+
 
     // defineProps(['title', 'contenido', 'id'])
     const props = defineProps({
@@ -9,7 +11,7 @@
             default: 'Sin descripción'
         }
     })
-
+   
 </script>
 <template>
     <div class="card">
@@ -18,8 +20,12 @@
                 {{ title }}
             </h4>
             <p>
-              {{ id }} {{contenido}} 
+              {{ id }} - {{contenido}} 
             </p>
+            <button @click="$emit('cambiarFavorito', title)" class="btn btn-outline-primary">
+                Mi favorito
+            </button>
+            <BotonContador></BotonContador>
         </div>
     </div>
 </template>
