@@ -1,30 +1,23 @@
 package Vista;
-
-import Controlador.Controlador;
 import Controlador.Verificacion;
 import Controlador.Sentencias;
-import Modelo.Pago;
-
+import com.toedter.calendar.JDateChooser;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.EventListener;
+
 
 public class Gestor extends JFrame {
 
     private boolean esAdmin = false;
     Sentencias s = new Sentencias();
-    Main main = new Main();
 
 
     // Modelos para las 4 tablas
@@ -35,10 +28,10 @@ public class Gestor extends JFrame {
 
     JTabbedPane pestanas;
     public Gestor(String dni) {
-        // 1. Consultar en la BD si el DNI es administrador
+        // Consultar en la BD si el DNI es administrador
         esAdmin = Verificacion.verificarRangoAdmin(dni);
 
-        // 2. Configuración de la ventana
+        // Configuración de la ventana
         setTitle("Panel de Control Gimnasio");
         setSize(900, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -84,19 +77,21 @@ public class Gestor extends JFrame {
         // --- CUERPO CENTRAL (Pestañas) ---
         pestanas = new JTabbedPane();
 
+        // Defino los modelos con los campos de la base de datos
         modeloEntrenador = new DefaultTableModel(null, new String[]{"ID", "Nombre Completo", "Código Sala"});
         modeloSala = new DefaultTableModel(null, new String[]{"ID", "Nombre", "Capacidad"});
         modeloSocio = new DefaultTableModel(null, new String[]{"ID", "DNI", "Nombre Completo", "Correo Electrónico", "Fecha Alta", "Teléfono"});
         modeloPago = new DefaultTableModel(null, new String[]{"ID", "DNI Socio", "Fecha", "Importe"});
 
-        pestanas.addTab("Entrenador", crearPanel("Entrenador", modeloEntrenador));
-        pestanas.addTab("Sala", crearPanel("Sala", modeloSala));
-        pestanas.addTab("Socio", crearPanel("Socio", modeloSocio));
-        pestanas.addTab("Pago", crearPanel("Pago", modeloPago));
+        pestanas.addTab("Entrenador", crearPanel( modeloEntrenador));
+        pestanas.addTab("Sala", crearPanel( modeloSala));
+        pestanas.addTab("Socio", crearPanel( modeloSocio));
+        pestanas.addTab("Pago", crearPanel( modeloPago));
 
 
 
         add(pestanas, BorderLayout.CENTER);
+
 
         // --- CARGA INICIAL DE DATOS ---
         cargarDatos();
@@ -104,7 +99,7 @@ public class Gestor extends JFrame {
 
 
 
-
+        // Al hacer clic en gestionar usuarios
         btnAddUser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -112,6 +107,7 @@ public class Gestor extends JFrame {
             }
         });
 
+        // Al hacer click en cerrar sesion
         btnCerrarSesion.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -139,9 +135,10 @@ public class Gestor extends JFrame {
 
 
 
-    // Método donde meterás las consultas SQL para rellenar las tablas
+    // metodo cargar datos para usarlo siempre que quiera actualizar
+
     public void cargarDatos() {
-        // 1. Limpiar los datos actuales de las tablas para no duplicar al refrescar
+        // Limpio los datos actuales de las tablas para no duplicar al refrescar
         modeloEntrenador.setRowCount(0);
         modeloSala.setRowCount(0);
         modeloSocio.setRowCount(0);
@@ -207,33 +204,34 @@ public class Gestor extends JFrame {
 
     }
 
-    private JPanel crearPanel(String nombreTabla, DefaultTableModel modeloTabla) {
+
+    // Funcion que crea el panel con el modelo que le pasamos al cambiar de pestaña
+
+    private JPanel crearPanel(DefaultTableModel modeloTabla) {
 
 
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-
-
-
-
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(modeloTabla);
+
+
+        // Esta funcion hace que no pueda editar dando doble click a las celdas
         JTable tabla = new JTable(modeloTabla) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // Bloquea la edición a nivel de UI, sin importar el modelo
+                return false;
             }
         };
 
 
         tabla.setRowSorter(sorter);
-
-
-
         JPanel panelBusqueda = new JPanel(new BorderLayout(5, 0));
         panelBusqueda.add(new JLabel("Buscar: "), BorderLayout.WEST);
         JTextField txtBuscador = new JTextField();
         panelBusqueda.add(txtBuscador, BorderLayout.CENTER);
 
+
+        // Funcion que al escribir eliminar o cambiar algo en el buscador se actualizer los registros para el filtro
         txtBuscador.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             public void insertUpdate(javax.swing.event.DocumentEvent e) { filtrar(); }
             public void removeUpdate(javax.swing.event.DocumentEvent e) { filtrar(); }
@@ -243,15 +241,17 @@ public class Gestor extends JFrame {
                 if (texto.trim().length() == 0) {
                     sorter.setRowFilter(null);
                 } else {
+                    // Para que da igual si lo escribes en minusculas o mayusculas
                     sorter.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
                 }
+
                 cargarDatos();
             }
         });
 
 
-
-        panel.add(panelBusqueda, BorderLayout.NORTH); // <--- AÑADIR BUSCADOR ARRIBA
+        // Ponemos el filtro
+        panel.add(panelBusqueda, BorderLayout.NORTH);
         JScrollPane scrollPane = new JScrollPane(tabla);
         panel.add(scrollPane, BorderLayout.CENTER);
 
@@ -262,7 +262,7 @@ public class Gestor extends JFrame {
         JPanel panelFormulario = new JPanel(new GridLayout(2, numColumnas, 5, 5));
         JTextField[] camposTexto = new JTextField[numColumnas];
 
-        // Sustituye 'miScrollPane' y 'miTabla' por los nombres de tus variables
+        // Si clickeas fuera de un registro quito los registros de los textfield
         scrollPane.getViewport().addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mousePressed(java.awt.event.MouseEvent e) {
@@ -277,9 +277,30 @@ public class Gestor extends JFrame {
             panelFormulario.add(new JLabel(modeloTabla.getColumnName(i)));
         }
 
+
         for (int i = 0; i < numColumnas; i++) {
-            camposTexto[i] = new JTextField();
-            panelFormulario.add(camposTexto[i]);
+
+            // Si el nombre de la columna contiene Fecha pongo que sea un datepicker
+            if (modeloTabla.getColumnName(i).contains("Fecha")) {
+                // Creo el selector de fecha
+                JDateChooser picker = new JDateChooser();
+                picker.setDateFormatString("yyyy-MM-dd");
+
+                // Hago que se abra al hacer clic en su campo de texto
+                JTextField editor = (JTextField) picker.getDateEditor().getUiComponent();
+                editor.addMouseListener(new java.awt.event.MouseAdapter() {
+                    public void mouseClicked(java.awt.event.MouseEvent evt) {
+                        picker.getCalendarButton().doClick();
+                    }
+                });
+
+                camposTexto[i] = editor;
+                panelFormulario.add(picker);
+
+            } else {
+                camposTexto[i] = new JTextField();
+                panelFormulario.add(camposTexto[i]);
+            }
         }
 
         pestanas.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -308,7 +329,7 @@ public class Gestor extends JFrame {
                 btnEliminar.setEnabled(haySeleccion);
                 btnModificar.setEnabled(haySeleccion);
 
-
+                // Si hay seleccion meto todos los datos en los campos de texto
 
                 if(haySeleccion) {
                     int modelRow = tabla.convertRowIndexToModel(filaSeleccionada);
@@ -316,17 +337,6 @@ public class Gestor extends JFrame {
                         Object valor = modeloTabla.getValueAt(modelRow, i);
                         camposTexto[i].setText(valor != null ? valor.toString() : "");
 
-                    }
-                    if (pestanas.getSelectedIndex() == 2){
-                        camposTexto[0].setEditable(false);
-                    }
-                } else {
-                    for(int i = 0; i < numColumnas; i++) {
-                        camposTexto[i].setText("");
-                    }
-                    if (pestanas.getSelectedIndex() == 2){
-                        camposTexto[0].setEditable(true);
-                        camposTexto[0].setBackground(new java.awt.Color(255, 255, 255));
                     }
                 }
             }
@@ -342,7 +352,7 @@ public class Gestor extends JFrame {
 
         panel.add(panelInferior, BorderLayout.SOUTH);
 
-        // EVENTO ELIMINAR MIEMBRO
+        // EVENTO ELIMINAR
         btnEliminar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -351,6 +361,58 @@ public class Gestor extends JFrame {
                     lista.add(campo.getText());
 
                 }
+
+                int respuesta = JOptionPane.showConfirmDialog(
+                        null,
+                        "¿Estás seguro de que deseas eliminar este registro?, Esta accion es irreversible",
+                        "Confirmación",
+                        JOptionPane.YES_NO_OPTION
+                );
+
+                // si no esta seguro se cancela
+                if (respuesta != JOptionPane.YES_OPTION) {
+                    return;
+                }
+
+                // si tiene clave ajena que es la pestaña 1 entonces doy la confirmacion de que existe un entrenador asignado a esa sala
+                // si no tiene prosigo normalmente
+
+                if (pestanas.getSelectedIndex() == 1){
+                    if (Sentencias.salaTieneEntrenadores(Integer.parseInt(lista.get(0)))){
+                        int respuesta2 = JOptionPane.showConfirmDialog(
+                                null,
+                                "Hay uno o varios entrenadores asignados a esta sala, ¿Desea proceder con la eliminacion?",
+                                "Confirmación",
+                                JOptionPane.YES_NO_OPTION
+                        );
+
+                        // si no esta seguro se cancela
+                        if (respuesta2 != JOptionPane.YES_OPTION) {
+                            return;
+                        }
+
+                    }
+                }
+
+                if (pestanas.getSelectedIndex() == 2){
+                    if (Sentencias.socioTienePagos((lista.get(1)))){
+                        int respuesta2 = JOptionPane.showConfirmDialog(
+                                null,
+                                "El socio seleccionado tiene pagos registrados ¿Desea proceder con la eliminacion?",
+                                "Confirmación",
+                                JOptionPane.YES_NO_OPTION
+                        );
+
+                        // si no esta seguro se cancela
+                        if (respuesta2 != JOptionPane.YES_OPTION) {
+                            return;
+                        }
+
+                    }
+                }
+
+
+                // si está seguro procede a la eliminacion
                 try {
                     Sentencias.EliminarObjeto(lista, pestanas.getSelectedIndex());
                     JOptionPane.showMessageDialog(panel, "Eliminado correctamente");
@@ -380,7 +442,7 @@ public class Gestor extends JFrame {
                         cargarDatos();
                     } else {
                         if (num == -1){
-                            JOptionPane.showMessageDialog(panel, "El nombre completo debe seguir el formato oficial Ejemplo 'Pedro Garcia Ruiz'");
+                            JOptionPane.showMessageDialog(panel, "Se requiere que el primer carácter de cada palabra del nombre sea una letra mayúscula");
                         }
                         if (num == -6){
                             JOptionPane.showMessageDialog(panel, "Error clave foránea (no existe registro con ese ID)");
@@ -441,7 +503,7 @@ public class Gestor extends JFrame {
                         JOptionPane.showMessageDialog(panel, "Error clave foránea (no existe registro con ese ID)");
                     }
                     if (num == -3) {
-                        JOptionPane.showMessageDialog(panel, "El nombre completo debe seguir el formato oficial Ejemplo 'Pedro Garcia Ruiz'");
+                        JOptionPane.showMessageDialog(panel, "Se requiere que el primer carácter de cada palabra del nombre sea una letra mayúscula");
                     }
                     if (num == -4) {
                         JOptionPane.showMessageDialog(panel, "Asegurate de introducir el DNI con el formato correcto (00000000A)");
@@ -453,7 +515,7 @@ public class Gestor extends JFrame {
                         JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos de Correo Electronico correctamente");
                     }
                     if (num == -6) {
-                        JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos de Fecha con el siguiente formato (YYYY/MM/DD)");
+                        JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos de Fecha con el siguiente formato (YYYY/MM/DD) y que no sea posterior a hoy");
                     }
                     if (num == -7) {
                         JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos de un Telefono español valido");
