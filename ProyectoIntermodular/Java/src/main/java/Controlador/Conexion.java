@@ -10,6 +10,9 @@ import java.util.ArrayList;
 public class Conexion {
 
     public static Connection crearConexion() throws SQLException {
+<<<<<<< HEAD
+        Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/gimnasiointermodular", "root", "");
+=======
 
         Path ruta = Path.of("src/main/java/Controlador/DatosConexion.txt");
         File archivo = ruta.toFile();
@@ -23,6 +26,7 @@ public class Conexion {
             throw new RuntimeException(e);
         }
         Connection connection = DriverManager.getConnection(lista.get(0), lista.get(1), lista.get(2));
+>>>>>>> be5bb255f689de6ac10d7846e6dca23d006a2853
         System.out.println("Se ha conectado exitosamente a la base de datos");
         return connection;
     }
