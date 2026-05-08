@@ -1,3 +1,0 @@
-- Añadir dni en socio
-- Cambiar mensajes de info
-- Verificación al eliminar objeto
