@@ -1,0 +1,43 @@
+SOCIOS (dni, nombre_completo, correo_electronico, fecha_alta, telefono, id_membresia, dni_socio_invitador)
+    Clave Primaria {dni}
+    Clave Ajena {id_membresia} hace referencia a MEMBRESIAS (id_membresia)
+    Clave Ajena {dni_socio_invitador} hace referencia a SOCIOS (dni)
+    VNN {id_membresia}
+    NULL {dni_socio_invitador}
+
+MEMBRESIAS (id_membresia, duracion, precio)
+    Clave Primaria {id_membresia}
+
+MEMBRESIAS_BASICAS (id_membresia, horario)
+    Clave Primaria {id_membresia}
+    Clave Ajena {id_membresia} hace referencia a MEMBRESIAS (id_membresia)
+
+MEMBRESIAS_PREMIUM (id_membresia, seguro_sanitario)
+    Clave Primaria {id_membresia}
+    Clave Ajena {id_membresia} hace referencia a MEMBRESIAS (id_membresia)
+
+PAGOS (id_pago, fecha, importe, dni_socio)
+    Clave Primaria {id_pago}
+    Clave Ajena {dni_socio} hace referencia a SOCIOS (dni)
+    VNN {dni_socio}
+
+ENTRENADORES (id_entrenador, nombre_completo)
+    Clave Primaria {id_entrenador}
+
+SALAS (id_sala, nombre, capacidad, id_entrenador)
+    Clave Primaria {id_sala}
+    Clave Ajena {id_entrenador} hace referencia a ENTRENADORES (id_entrenador)
+    VNN {id_entrenador}
+
+SALAS_BASICAS (id_sala, tiempo_maximo_uso)
+    Clave Primaria {id_sala}
+    Clave Ajena {id_sala} hace referencia a SALAS (id_sala)
+
+SALAS_PREMIUM (id_sala, tipo_suelo)
+    Clave Primaria {id_sala}
+    Clave Ajena {id_sala} hace referencia a SALAS (id_sala)
+
+USA (dni_socio, id_sala)
+    Clave Primaria {dni_socio, id_sala}
+    Clave Ajena {dni_socio} hace referencia a SOCIOS (dni)
+    Clave Ajena {id_sala} hace referencia a SALAS (id_sala)

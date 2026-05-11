@@ -59,11 +59,6 @@ CREATE TABLE Socio_Sala (
     CONSTRAINT fk_usa_sala FOREIGN KEY (id_sala) REFERENCES Sala (id)
 );
 
--- Insertamos un par de usuarios con privilegios y usuarios sin
-insert into logged (dni, contraseña, admin)
-values ("61091513V", "61091513V", True);
- 
-
 insert into logged (dni, contraseña, admin)
 values ("61091513N", "61091513N", False);
 
@@ -81,7 +76,7 @@ INSERT INTO logged (dni, contraseña, admin) VALUES
 ("56567878V", "admin565", True), ("90901212W", "user9090", False),
 ("34345656X", "34345656X", True), ("78789090Y", "78789090Y", False),
 ("13572468Z", "pass1357", True), ("24681357A", "24681357A", False),
-("86427531B", "admin864", True), ("97531864C", "97531864C", False),
+("86427531B", "admin864", True), ("61091513V", "61091513V", True),
 ("15926347D", "clv1592D", True), ("48261735E", "48261735E", False);
 
 
