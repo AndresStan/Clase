@@ -17,16 +17,19 @@ public class Regex {
     }
 
     public static boolean esImportePositivo(String texto) {
-        try {
-            // Convertimos a double (acepta enteros y decimales)
-            // Reemplazamos la coma por punto por si el usuario usa formato europeo
-            double valor = Double.parseDouble(texto.replace(",", "."));
-            return valor > 0;
-        } catch (Exception e) {
-            // Si no es un número (ej: "abc") o está vacío, devuelve false
-            return false;
-        }
+        // ^      -> Inicio
+        // \\d    -> Dígitos numéricos
+        // {1,5}  -> Mínimo 1, máximo 5 caracteres
+        // $      -> Fin
+        return texto != null && texto.matches("^\\d{1,5}$");
     }
+
+    public static boolean esImporteValido(String texto) {
+        // 1. Permite 1000 con o sin decimales (.0 o .00)
+        // 2. O permite de 0 a 999 con 1 o 2 decimales opcionales
+        return texto != null && texto.matches("^(1000([\\.,]0{1,2})?|\\d{1,3}([\\.,]\\d{1,2})?)$");
+    }
+
 
 
     public static boolean validarFecha(String fecha) {
@@ -51,6 +54,12 @@ public class Regex {
         String regex = "^[\\w.-]+@[a-zA-Z\\d.-]+\\.[a-zA-Z]{2,6}$";
         return correo != null && correo.matches(regex);
     }
+
+    public static boolean codigoSalaEntrenadorValido(String texto) {
+        // Devuelve true si el texto no es nulo y cumple con el regex
+        return texto != null && texto.matches("^\\d{1,4}$");
+    }
+
 
     public static boolean validarFormatoDNI(String dni) {
         String regex = "^[0-9]{8}[A-Za-z]$";

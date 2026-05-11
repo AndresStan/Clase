@@ -231,6 +231,10 @@ public class Sentencias extends Conexion {
                        if (!Regex.verificarNombreCompleto(lista.get(1))){
                            return -3;
                        }
+                       if (!Regex.codigoSalaEntrenadorValido(lista.get(2))){
+                           return -22;
+                       }
+
                        PreparedStatement preparedStatement = connection.prepareStatement("insert into entrenador (id, nombre_completo, codigoSala) values (?, ?, ?)");
                        preparedStatement.setString(1, String.valueOf(DevolverUltimoID(pestaña)+1));
                        preparedStatement.setString(2, lista.get(1));
@@ -239,12 +243,10 @@ public class Sentencias extends Conexion {
                        return 1;
                    } catch (SQLException e) {
                        int codigo = e.getErrorCode(); // Obtiene el código numérico del motor
-                       if (codigo == 1062) {
-                          return -1; // clave duplicada
-                       } else if (codigo == 1451 || codigo == 1452) {
-                           return  -2; // No existe sala con ese id
+                       if (codigo == 1451 || codigo == 1452) {
+                           return  -22; // No existe sala con ese id
                        } else {
-                           return -67; // error desconocido
+                           System.out.println(e);
                        }
                    }
                 }
@@ -255,7 +257,7 @@ public class Sentencias extends Conexion {
                             return -3;
                         }
                         if (!Regex.esImportePositivo(lista.get(2))){
-                            return -88;
+                            return -76;
                         }
                         PreparedStatement preparedStatement = connection.prepareStatement("insert into sala (id, nombre, capacidad) values (?, ?, ?)");
                         preparedStatement.setString(1, String.valueOf(DevolverUltimoID(pestaña)+1));
@@ -266,9 +268,10 @@ public class Sentencias extends Conexion {
                     } catch (SQLException e) {
                         int codigo = e.getErrorCode(); // Obtiene el código numérico del motor
                         if (codigo == 1062) {
-                            return -1; // clave duplicada
+                            System.out.println(e);
+                            System.out.println(codigo);
                         } else {
-                            return -67; // error desconocido
+                            System.out.println(e);
                         }
                     }
                 }
@@ -316,7 +319,7 @@ public class Sentencias extends Conexion {
                         if (!Regex.validarFecha(lista.get(2))){
                             return -6;
                         }
-                        if (!Regex.esImportePositivo(lista.get(3))){
+                        if (!Regex.esImporteValido(lista.get(3))){
                             return -88;
                         }
                         PreparedStatement preparedStatement = connection.prepareStatement("insert into pago (id, dni_socio, fecha, importe) values (?, ?, ?, ?)");
@@ -352,20 +355,26 @@ public class Sentencias extends Conexion {
                     if (!Regex.verificarNombreCompleto(obj.get(1))){
                         return -1;
                     }
+
+                    if (!Regex.codigoSalaEntrenadorValido(obj.get(2))){
+                        return -2;
+                    }
+
+
+
                     try (Connection connection = Conexion.crearConexion()) {
                         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE ENTRENADOR SET nombre_completo = ?, codigoSala = ? where id = ?");
                         preparedStatement.setString(1, obj.get(1));
                         preparedStatement.setString(2, obj.get(2));
                         preparedStatement.setString(3, obj.get(0));
                         int filas = preparedStatement.executeUpdate();
-
                         if (filas > 0) {
                             return 10;
                         }
                     } catch (SQLException e) {
                         int codigo = e.getErrorCode();
                         if (codigo == 1452) {
-                            return -6; // clave duplicada
+                            return -2; // clave duplicada
                         }
                     }
                 case 1:
@@ -385,22 +394,23 @@ public class Sentencias extends Conexion {
                             return 10;
                         }
                     } catch (SQLException e) {
+                        System.out.println(e);
                     }
                 case 2:
                     if (!Regex.verificarNombreCompleto(obj.get(2))){
                         return -1;
                     }
                     if (!Regex.validarCorreo(obj.get(3))){
-                        return -80;
+                        return -30;
                     }
                     if (!Regex.validarFormatoDNI(obj.get(1))){
-                        return -81;
+                        return -31;
                     }
                     if (!Regex.validarFecha(obj.get(4))){
-                        return -82;
+                        return -32;
                     }
                     if (!Regex.validarTelefono(obj.get(5))){
-                        return -83;
+                        return -33;
                     }
                     try (Connection connection = Conexion.crearConexion()) {
                         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE socio SET DNI = ?, nombre_completo = ?, correo_electronico = ?, fecha_alta = ?, telefono = ?  where ID = ?");
@@ -422,13 +432,13 @@ public class Sentencias extends Conexion {
                     }
                 case 3:
                     if (!Regex.validarFormatoDNI(obj.get(1))){
-                        return -81;
+                        return -31;
                     }
                     if (!Regex.validarFecha(obj.get(2))){
-                        return -82;
+                        return -32;
                     }
-                    if (!Regex.esImportePositivo(obj.get(3))){
-                        return -21;
+                    if (!Regex.esImporteValido(obj.get(3))){
+                        return -34;
                     }
                     try (Connection connection = Conexion.crearConexion()) {
                         PreparedStatement preparedStatement = connection.prepareStatement("UPDATE pago SET dni_socio = ?, fecha = ?, importe = ? where id = ?");

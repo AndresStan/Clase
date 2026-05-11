@@ -301,6 +301,8 @@ public class Gestor extends JFrame {
                 camposTexto[i] = new JTextField();
                 panelFormulario.add(camposTexto[i]);
             }
+
+
         }
 
         pestanas.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -329,6 +331,8 @@ public class Gestor extends JFrame {
                 btnEliminar.setEnabled(haySeleccion);
                 btnModificar.setEnabled(haySeleccion);
 
+
+
                 // Si hay seleccion meto todos los datos en los campos de texto
 
                 if(haySeleccion) {
@@ -338,9 +342,18 @@ public class Gestor extends JFrame {
                         camposTexto[i].setText(valor != null ? valor.toString() : "");
 
                     }
+                    if (pestanas.getSelectedIndex()==3){
+                        camposTexto[1].setEditable(false);
+                        camposTexto[1].setBackground(new java.awt.Color(255, 255, 255));
+                    }
+                } else {
+                    camposTexto[1].setEditable(true);
+                    camposTexto[1].setBackground(new java.awt.Color(255, 255, 255));
                 }
             }
         });
+
+
 
         panelBotones.add(btnInsertar);
         panelBotones.add(btnModificar);
@@ -444,39 +457,32 @@ public class Gestor extends JFrame {
                         if (num == -1){
                             JOptionPane.showMessageDialog(panel, "Se requiere que el primer carácter de cada palabra del nombre sea una letra mayúscula");
                         }
-                        if (num == -6){
-                            JOptionPane.showMessageDialog(panel, "Error clave foránea (no existe registro con ese ID)");
+                        if (num == -2){
+                            JOptionPane.showMessageDialog(panel, "Error, no hay ninguna sala con ese codigo");
                         }
                         if (num == -21){
                             JOptionPane.showMessageDialog(panel, "Error la capacidad debe ser un numero entero valido");
                         }
-                        if (num == -80){
+                        if (num == -30){
                             JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos de Correo Electronico correctamente");
                         }
-                        if (num == -81){
+                        if (num == -31){
                             JOptionPane.showMessageDialog(panel, "Asegurate de introducir el DNI con el formato correcto (00000000A)");
                         }
-                        if (num == -82){
+                        if (num == -32){
                             JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos de Fecha con el siguiente formato (YYYY/MM/DD) y que no sea posterior a hoy");
                         }
-                        if (num == -83){
+                        if (num == -33){
                             JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos de un Telefono español valido");
                         }
-                        if (num == -2){
-                            JOptionPane.showMessageDialog(panel, "Error clave foránea (no existe registro con ese ID)");
+                        if (num == -34){
+                            JOptionPane.showMessageDialog(panel, "El importe no puede ser negativo ni superior a 99999€");
                         }
 
                     }
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
-
-
-
-
-
-
-
 
 
 
@@ -498,6 +504,9 @@ public class Gestor extends JFrame {
                 } else {
                     if (num == -1){
                         JOptionPane.showMessageDialog(panel, "Error clave primaria duplicada (ya existe un registro con esos datos)");
+                    }
+                    if (num == -22){
+                        JOptionPane.showMessageDialog(panel, "Error, no hay ninguna sala con ese codigo");
                     }
                     if (num == -2){
                         JOptionPane.showMessageDialog(panel, "Error clave foránea (no existe registro con ese ID)");
@@ -522,6 +531,9 @@ public class Gestor extends JFrame {
                     }
                     if (num == -88) {
                         JOptionPane.showMessageDialog(panel, "Asegurate de introducir un importe valido");
+                    }
+                    if (num == -76) {
+                        JOptionPane.showMessageDialog(panel, "Asegurate de introducir una capacidad positiva valida");
                     }
                 }
                 cargarDatos();
