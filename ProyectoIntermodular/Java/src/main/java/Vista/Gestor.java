@@ -476,7 +476,7 @@ public class Gestor extends JFrame {
                             JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos de un Telefono español valido");
                         }
                         if (num == -34){
-                            JOptionPane.showMessageDialog(panel, "El importe no puede ser negativo ni superior a 99999€");
+                            JOptionPane.showMessageDialog(panel, "El importe no puede ser negativo ni superior a 999€");
                         }
 
                     }
