@@ -455,7 +455,7 @@ public class Gestor extends JFrame {
                         cargarDatos();
                     } else {
                         if (num == -1){
-                            JOptionPane.showMessageDialog(panel, "Se requiere que el primer carácter de cada palabra del nombre sea una letra mayúscula");
+                            JOptionPane.showMessageDialog(panel, "Se requiere que el primer carácter de cada palabra del nombre sea una letra mayúscula y no contenga caracteres invalidos");
                         }
                         if (num == -2){
                             JOptionPane.showMessageDialog(panel, "Error, no hay ninguna sala con ese codigo");
