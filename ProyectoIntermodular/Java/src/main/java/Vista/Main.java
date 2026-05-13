@@ -23,6 +23,7 @@ public class Main extends Controlador {
                 btnEntrar.setFocusPainted(false);
 
                 // Si le das a entrar
+
                 btnEntrar.addActionListener(e -> {
                     String dni = txtDni.getText();
                     String pass = new String(txtPass.getPassword());
@@ -44,7 +45,6 @@ public class Main extends Controlador {
                 frame.setLocationRelativeTo(null);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(true);
-
 
     }
 }

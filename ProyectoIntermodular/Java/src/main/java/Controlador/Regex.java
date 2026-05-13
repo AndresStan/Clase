@@ -11,6 +11,8 @@ public class Regex {
 
     static GestionUsuariosC guC = new GestionUsuariosC();
 
+
+
     public static boolean validarTelefono(String telefono) {
         String regex = "^[67][0-9]{8}$";
         return telefono != null && telefono.matches(regex);
@@ -35,7 +37,9 @@ public class Regex {
     public static boolean validarFecha(String fecha) {
         // Valido el formato
         String regex = "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$";
-        if (fecha == null || !fecha.matches(regex)) {
+
+
+        if (fecha == null || !fecha.matches(regex)){
             return false;
         }
         try {
@@ -43,6 +47,10 @@ public class Regex {
             LocalDate fechaIngresada = LocalDate.parse(fecha, DateTimeFormatter.ISO_LOCAL_DATE);
             LocalDate hoy = LocalDate.now();
             // Verifico que no sea posterior a hoy
+
+            if (fechaIngresada.isBefore(LocalDate.of(2000,1,1))){
+                return false;
+            }
             return !fechaIngresada.isAfter(hoy);
         } catch (DateTimeParseException e) {
             return false;

@@ -470,7 +470,7 @@ public class Gestor extends JFrame {
                             JOptionPane.showMessageDialog(panel, "Asegurate de introducir el DNI con el formato correcto (00000000A)");
                         }
                         if (num == -32){
-                            JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos de Fecha con el siguiente formato (YYYY/MM/DD) y que no sea posterior a hoy");
+                            JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos de Fecha con el siguiente formato (YYYY/MM/DD) y que no sea posterior a hoy ni inferior a 2010");
                         }
                         if (num == -33){
                             JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos de un Telefono español valido");
@@ -524,7 +524,7 @@ public class Gestor extends JFrame {
                         JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos de Correo Electronico correctamente");
                     }
                     if (num == -6) {
-                        JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos de Fecha con el siguiente formato (YYYY/MM/DD) y que no sea posterior a hoy");
+                        JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos de Fecha con el siguiente formato (YYYY/MM/DD) y que no sea posterior a hoy ni inferior a 2010");
                     }
                     if (num == -7) {
                         JOptionPane.showMessageDialog(panel, "Asegurate de introducir los datos de un Telefono español valido");
